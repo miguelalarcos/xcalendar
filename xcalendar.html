@@ -1,27 +1,31 @@
 <template name="xcalendar">
     <div id="{{this.calendarid}}" class="xwidget xcalendar">
         {{#if calendarSelected}}
-            <button id="plusWeek">+</button>
-            <button id="minusWeek">-</button>
-            <table>
-                {{#each head}}
-                <th>{{this}}</th>
-                {{/each}}
-                {{#each slot}}
-                <tr>
-                    <td>{{this}}</td>
-                    {{#each day this}}
-                    <td date="{{this}}" class="day-slot"></td>
-                    {{/each}}
-                </tr>
-                {{/each}}
-            </table>
-            <!--{{#each xevent this.calendarid}}
-                <div class="xevent" _id="{{this._id}}" style="{{this.style}}">{{{this.content}}}</div>
-            {{/each}}-->
-            {{ xevent this.calendarid}}
+            {{>xcalendarInner}}
         {{/if}}
     </div>
+</template>
+
+<template name="xcalendarInner">
+    <button id="plusWeek">+</button>
+    <button id="minusWeek">-</button>
+    <table>
+        {{#each head}}
+            <th>{{this}}</th>
+        {{/each}}
+        {{#each slot}}
+            <tr>
+                <td>{{this}}</td>
+                {{#each day this}}
+                    <td date="{{this}}" class="day-slot"></td>
+                {{/each}}
+            </tr>
+        {{/each}}
+    </table>
+    <!--{{#each xevent this.calendarid}}
+                <div class="xevent" _id="{{this._id}}" style="{{this.style}}">{{{this.content}}}</div>
+            {{/each}}-->
+    {{ xevent this.calendarid}}
 </template>
 
 

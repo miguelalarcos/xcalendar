@@ -5,13 +5,19 @@ attachEventSchema
   patientId:
     type: String
 
-@patientCallback = ->
-  patientId: patientId.get()
-  text: patient.findOne(patientId.get()).name
-  calendarId: calendarId.get()
+@patientCallback = (callback) ->
+  onApprove = ->
+    text = $('#inputDateAskModal').val()
+    callback
+      patientId: patientId.get()
+      text: text
+  $('#dateAskModal').modal(onApprove : onApprove).modal('show')
 
+Template.dateAskModal.helpers
+  patient_: -> patient.findOne(patientId.get())
+  
 @renderDatePatient = (event) ->
-  event.patientId
+  event.text
 
 class @HomeController extends RouteController
   waitOn: ->

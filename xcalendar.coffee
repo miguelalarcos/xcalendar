@@ -3,7 +3,7 @@ xday = new ReactiveVar(moment())
 
 waitForCalendarEvents = (calendarName) -> Meteor.subscribe 'weekEvents', calendarName, xday.get().toDate()
 
-Template.xcalendar.events
+Template.xcalendarInner.events
   'click #plusWeek': (e, t) ->
     xday.set xday.get().add(7, 'days')
   'click #minusWeek': (e, t) ->
@@ -12,11 +12,27 @@ Template.xcalendar.events
     atts = t.data
     date_txt = $(e.target).attr('date')
     date = moment(date_txt, 'YYYY-MM-DD HH:mm').toDate()
-    if not xevent.findOne(date:date) #hacer esta comprobación tb en un deny en el server
-      data = window[atts.callback]()
-      dct = {date:date}
+    callback = (data)->
+      dct = {date:date, calendarId: xcalendarId.get()}
       _.extend(dct, data)
       xevent.insert(dct)
+    if not xevent.findOne(date:date)
+      window[atts.callback](callback)
+    #atts = t.data
+    #date_txt = $(e.target).attr('date')
+    #date = moment(date_txt, 'YYYY-MM-DD HH:mm').toDate()
+    #if not xevent.findOne(date:date) #hacer esta comprobación tb en un deny en el server
+    #  data = window[atts.callback]()
+    #  dct = {date:date, calendarId: xcalendarId.get()}
+    #  _.extend(dct, data)
+    #  xevent.insert(dct)
+    else
+      el = $(e.target)
+      _id = el.attr('_id')
+      xevent.remove(_id)
+      el.css({'background-color': 'white'})
+      el.html('')
+      el.attr('_id', null)
 
 
 slots = (ini, end, interval)->
@@ -43,6 +59,7 @@ Tracker.autorun ->
 
 Template.xcalendar.helpers
   calendarSelected: -> if xcalendarId.get() then true else false
+Template.xcalendarInner.helpers
   head: ->
     ret = ['']
     for i in [1..5]
@@ -61,7 +78,12 @@ Template.xcalendar.helpers
     return ret
   xevent: (calendarId) ->
     render = window[this.renderfunction]
-    for event in xevent.find().fetch()
+    #
+    m = moment(xday.get())
+    d1 = m.clone().day(1).startOf('day').toDate()
+    d2 = m.clone().day(8).startOf('day').toDate()
+    #
+    for event in xevent.find({calendarId: xcalendarId.get(), date: {$gte: d1, $lt: d2}}).fetch() # xevent.find({}).fetch()
       content = render(event)
       m = moment(event.date)
       time = m.format('HH:mm')
@@ -74,6 +96,8 @@ Template.xcalendar.helpers
 
       el = $('#' + calendarId + ' tr:eq(' + row + ') td:eq(' + col + ')')
       el.css({'background-color': 'green'})
+      el.html(content)
+      el.attr('_id', event._id)
 
     return null
   xxevent: (calendarId) ->
@@ -100,8 +124,12 @@ Template.xcalendar.helpers
       event.style = 'position: absolute; left: ' + left + 'px; top: ' + top + 'px;'
     return ret
 
-#Template.xcalendar.rendered = ->
-#  _id = xevent.insert(date: new Date(), text: 'dummy', calendarId: 'dummy', patientId:'dummy')
-#  xevent.remove(_id)
+Template.xcalendarInner.rendered = ->
+  evento = xevent.findOne()
+  if evento
+    _id = evento._id
+    text = evento.text
+    xevent.update(_id, {$set: {text: text + '.'}})
+    xevent.update(_id, {$set: {text: text }})
 
 
