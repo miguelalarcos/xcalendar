@@ -1,8 +1,16 @@
 <template name="home">
-    {{#each patient}}
+    Patients:
+    {{#each patients}}
         <div>
             <a class="patient" href="" _id="{{this._id}}">{{this._id}}</a> {{this.name}} {{this.surname}}
         </div>
     {{/each}}
-    {{> xcalendar calendarid=calendar callback="patientCallback" renderfunction="renderDatePatient"}}
+    Calendars:
+    {{#each calendars}}
+        <div>
+            <a class="calendar" href="" _id="{{this._id}}">{{this._id}}</a> {{this.name}}
+        </div>
+    {{/each}}
+    {{> xcalendar calendarid='myCalendar' callback="patientCallback" renderfunction="renderDatePatient"}}
+
 </template>

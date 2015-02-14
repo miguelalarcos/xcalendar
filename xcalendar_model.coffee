@@ -14,6 +14,8 @@ attachEventSchema = (schema) ->
 
 @xcalendar = new Meteor.Collection "Calendar"
 xcalendarSchema = new SimpleSchema
+  name:
+    type: String
   slotIni:
     type: String
     #regEx: /^[0-9]{5}$/

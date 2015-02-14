@@ -16,13 +16,15 @@ Package.onUse(function(api) {
   api.use('aldeed:collection2', ['server', 'client']);
   api.use('momentjs:moment',['client','server'])
   api.use('templating', 'client');
+  api.use('tracker', 'client');
   api.use('reactive-var', 'client');
   api.addFiles('xcalendar.html', 'client');
+  api.addFiles('xcalendar_model.coffee', ['client', 'server']);
   api.addFiles('xcalendar.coffee', 'client');
   api.addFiles('xcalendar.css', 'client');
-  api.addFiles('xcalendar_model.coffee', ['client', 'server']);
+
   api.addFiles('xcalendar_publications.coffee', 'server');
   api.export('attachEventSchema', 'client');
-  api.export('waitForCalendar', 'client');
+  api.export('waitForCalendarEvents', 'client');
 });
 
