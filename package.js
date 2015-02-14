@@ -22,9 +22,12 @@ Package.onUse(function(api) {
   api.addFiles('xcalendar_model.coffee', ['client', 'server']);
   api.addFiles('xcalendar.coffee', 'client');
   api.addFiles('xcalendar.css', 'client');
-
   api.addFiles('xcalendar_publications.coffee', 'server');
+
   api.export('attachEventSchema', 'client');
   api.export('waitForCalendarEvents', 'client');
+  api.export('setCalendar', 'client');
+  api.export('setEventHelpers', 'client');
+  api.export('publishWeekEvents', 'server');
 });
 

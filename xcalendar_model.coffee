@@ -12,6 +12,9 @@ attachEventSchema = (schema) ->
   _.extend(schema, basicEventSchema)
   xevent.attachSchema(schema)
 
+setEventHelpers = (helpers) ->
+  xevent.helpers helpers
+
 @xcalendar = new Meteor.Collection "Calendar"
 xcalendarSchema = new SimpleSchema
   name:

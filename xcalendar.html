@@ -22,10 +22,10 @@
             </tr>
         {{/each}}
     </table>
-    <!--{{#each xevent this.calendarid}}
-                <div class="xevent" _id="{{this._id}}" style="{{this.style}}">{{{this.content}}}</div>
-            {{/each}}-->
-    {{ xevent this.calendarid}}
+    {{#each xevent this.calendarid}}
+        <div class="xevent" _id="{{this._id}}" style="{{this.style}}">{{{this.content}}}</div>
+    {{/each}}
+    <!--{{ xevent this.calendarid}}-->
 </template>
 
 

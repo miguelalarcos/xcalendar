@@ -3,3 +3,7 @@ Meteor.publish 'patients', ->
 
 Meteor.publish 'calendars', ->
   xcalendar.find({})
+
+publishWeekEvents [
+  find: (event) -> patient.find event.patientId
+  ]

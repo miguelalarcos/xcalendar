@@ -1,9 +1,12 @@
 patientId = new ReactiveVar(null)
-calendarId = @xcalendarId
 
 attachEventSchema
   patientId:
     type: String
+
+setEventHelpers
+  patient: ->
+    patient.findOne(this.patientId)
 
 @patientCallback = (callback) ->
   onApprove = ->
@@ -15,13 +18,13 @@ attachEventSchema
 
 Template.dateAskModal.helpers
   patient_: -> patient.findOne(patientId.get())
-  
+
 @renderDatePatient = (event) ->
-  event.text
+  event.patient().name + '<br>' + event.text
 
 class @HomeController extends RouteController
   waitOn: ->
-    waitForCalendarEvents('agenda01')
+    waitForCalendarEvents()
     Meteor.subscribe 'patients'
     Meteor.subscribe 'calendars'
 
@@ -36,5 +39,6 @@ Template.home.events
     console.log 'patient id set'
   'click .calendar': (e,t)->
     _id = $(e.target).attr('_id')
-    calendarId.set _id
+    #calendarId.set _id
+    setCalendar _id
     console.log 'calendar id set'

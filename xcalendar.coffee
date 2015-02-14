@@ -1,7 +1,8 @@
 xday = new ReactiveVar(moment())
 @xcalendarId = new ReactiveVar(null)
 
-waitForCalendarEvents = (calendarName) -> Meteor.subscribe 'weekEvents', calendarName, xday.get().toDate()
+waitForCalendarEvents = -> Meteor.subscribe 'weekEvents', xcalendarId.get(), xday.get().toDate()
+setCalendar = (_id) -> xcalendarId.set _id
 
 Template.xcalendarInner.events
   'click #plusWeek': (e, t) ->
@@ -18,22 +19,9 @@ Template.xcalendarInner.events
       xevent.insert(dct)
     if not xevent.findOne(date:date)
       window[atts.callback](callback)
-    #atts = t.data
-    #date_txt = $(e.target).attr('date')
-    #date = moment(date_txt, 'YYYY-MM-DD HH:mm').toDate()
-    #if not xevent.findOne(date:date) #hacer esta comprobación tb en un deny en el server
-    #  data = window[atts.callback]()
-    #  dct = {date:date, calendarId: xcalendarId.get()}
-    #  _.extend(dct, data)
-    #  xevent.insert(dct)
-    else
-      el = $(e.target)
-      _id = el.attr('_id')
-      xevent.remove(_id)
-      el.css({'background-color': 'white'})
-      el.html('')
-      el.attr('_id', null)
-
+  'click .xevent': (e,t)->
+    _id = $(e.target).attr('_id')
+    xevent.remove _id
 
 slots = (ini, end, interval)->
   ret = []
@@ -76,7 +64,7 @@ Template.xcalendarInner.helpers
       m = xday.get().clone().day(i).hour(hour).minute(minute).format('YYYY-MM-DD HH:mm')
       ret.push m
     return ret
-  xevent: (calendarId) ->
+  xxevent: (calendarId) ->
     render = window[this.renderfunction]
     #
     m = moment(xday.get())
@@ -100,7 +88,7 @@ Template.xcalendarInner.helpers
       el.attr('_id', event._id)
 
     return null
-  xxevent: (calendarId) ->
+  xevent: (calendarId) ->
     render = window[this.renderfunction]
     ret = xevent.find().fetch()
     for event in ret
