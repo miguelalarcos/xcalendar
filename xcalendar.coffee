@@ -1,3 +1,8 @@
+xday = new ReactiveVar(moment())
+xcalendar = new ReactiveVar(null)
+
+waitForCalendar = -> Meteor.subscribe 'weekEvents', xcalendar.get(), xday.get().toDate()
+
 Template.xcalendar.events
   'click #plusWeek': (e, t) ->
     xday.set xday.get().add(7, 'days')
@@ -66,7 +71,7 @@ Template.xcalendar.helpers
     return ret
 
 Template.xcalendar.rendered = ->
-  _id = xevent.insert(date: new Date(), text: 'dummy', calendarId:'dummy', clienteId:'dummy')
+  _id = xevent.insert(date: new Date(), text: 'dummy', calendarId:'dummy', patientId:'dummy')
   xevent.remove(_id)
 
 

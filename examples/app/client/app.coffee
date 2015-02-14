@@ -1,9 +1,28 @@
-@clienteCallback = ->
-  clienteId: clienteId.get()
-  text: cliente.findOne(clienteId.get()).nombre
+patientId = new ReactiveVar(null)
 
-@renderCitaCliente = (event) ->
-  event.clienteId
+attachEventSchema
+  patientId:
+    type: String
+
+@patientCallback = ->
+  patientId: patientId.get()
+  text: patient.findOne(patientId.get()).name
+
+@renderDatePatient = (event) ->
+  event.patientId
+
+#Template.home.helpers
+#  calendar: -> xcalendar.get()
+
+class @HomeController extends RouteController
+  waitOn: ->
+    waitForCalendar()
+    Meteor.subscribe 'patients'
 
 Template.home.helpers
-  calendar: -> xcalendar.get()
+  patient: -> patient.find({})
+
+Template.home.events
+  'click .patient': (e,t)->
+    _id = $(e.target).attr('_id')
+    patientId.set _id

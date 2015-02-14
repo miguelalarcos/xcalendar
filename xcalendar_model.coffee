@@ -1,14 +1,25 @@
 @xevent = new Meteor.Collection "Events"
-@event_schema = new SimpleSchema
+basicEventSchema =
   date:
     type: Date
   text:
     type: String
+    optional: true
   calendarId:
     type: String
-  clienteId:
+
+attachEventSchema = (schema) ->
+  _.extend(schema, basicEventSchema)
+  xevent.attachSchema(schema)
+
+@xcalendar = new Meteor.Collection "Calendar"
+xcalendarSchema = new SimpleSchema
+  slotIni:
     type: String
+    #regEx: /^[0-9]{5}$/
+  slotEnd:
+    type: String
+  duration:
+    type: Number
 
-xevent.attachSchema(event_schema)
-
-
+xcalendar.attachSchema(xcalendarSchema)
