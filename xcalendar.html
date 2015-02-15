@@ -17,7 +17,9 @@
             <tr>
                 <td>{{this}}</td>
                 {{#each day this}}
-                    <td date="{{this}}" class="day-slot"></td>
+                    <td date="{{this}}" class="day-slot">
+                        {{> dateSlotTemplate}}
+                    </td>
                 {{/each}}
             </tr>
         {{/each}}

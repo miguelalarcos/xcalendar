@@ -1,3 +1,18 @@
 .delete-event {
     cursor: pointer;
 }
+
+.patient-event {
+    background-color: lightgreen;
+    text-align: center;
+    width: 200px;
+    height: 50px;
+}
+
+.empty-slot {
+    color: lightgrey;
+    font-style: italic;
+    background-color: lightyellow;
+    width: 200px;
+    height: 50px;
+}

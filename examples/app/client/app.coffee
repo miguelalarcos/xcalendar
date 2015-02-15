@@ -1,10 +1,16 @@
 patientId = new ReactiveVar(null)
 updateEvent = new ReactiveVar(null)
+removeEvent = new ReactiveVar(null)
 
-xCalendar.onDayClick = (event) ->
+#xCalendar.onDayClick = (event) ->
+Template.dateSlotTemplate.events
+  'click .empty-slot': (e,t)->
     onApprove = ->
       text = $('#inputDateAskModal').val()
       $('#inputDateAskModal').val('')
+      date_txt = t.data
+      date = moment(date_txt, 'YYYY-MM-DD HH:mm').toDate()
+      event = {date: date}
       event.patientId = patientId.get()
       event.text = text
       xCalendar.insert event
@@ -12,8 +18,14 @@ xCalendar.onDayClick = (event) ->
 
 Template.dateEventTemplate.events
   'click .delete-event': (e, t)->
-    xCalendar.remove t.data._id
+    removeEvent.set t.data
+    _id = t.data._id
+    onApprove = ->
+      xCalendar.remove _id
+    $('#dateRemoveAskModal').modal(onApprove : onApprove).modal('show')
   'click .patient-event': (e, t)->
+    if not $(e.target).hasClass('patient-event')
+      return
     updateEvent.set t.data
     _id = t.data._id
     onApprove = ->
@@ -27,8 +39,8 @@ Template.dateAskModal.helpers
 Template.dateUpdateAskModal.helpers
   event: -> updateEvent.get() or {} # why???
 
-#@renderDatePatient = (event) ->
-#  Blaze.toHTMLWithData(Template.datePatient, event)
+Template.dateRemoveAskModal.helpers
+  event: -> removeEvent.get() or {}
 
 class @HomeController extends RouteController
   waitOn: ->
@@ -50,3 +62,7 @@ Template.home.events
     #calendarId.set _id
     xCalendar.setCalendar _id
     console.log 'calendar id set'
+
+Template.dateEventTemplate.rendered = ->
+  for el in this.findAll('.patient-event')
+    $(el).popup()

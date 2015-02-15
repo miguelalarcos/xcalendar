@@ -1,6 +1,11 @@
 xday = new ReactiveVar(moment())
 xcalendarId = new ReactiveVar(null)
-#eventDom = []
+
+xCalendar.insert = (data) ->
+  data.calendarId = xcalendarId.get()
+  xevent.insert(data)
+xCalendar.update = (_id, data) -> xevent.update _id, {$set: data}
+xCalendar.remove = (_id)-> xevent.remove _id
 
 slotIni = null
 slotEnd = null
@@ -19,12 +24,12 @@ Template.xcalendarInner.events
     xday.set xday.get().add(7, 'days')
   'click #minusWeek': (e, t) ->
     xday.set xday.get().add(-7, 'days')
-  'click .day-slot': (e,t)->
-    if $(e.target).hasClass('day-slot')
-      date_txt = $(e.target).attr('date')
-      date = moment(date_txt, 'YYYY-MM-DD HH:mm').toDate()
-      if not xevent.findOne(date:date)
-        xCalendar.onDayClick({date:date, calendarId: xcalendarId.get()})
+  #'click .day-slot': (e,t)->
+  #  if $(e.target).hasClass('day-slot')
+  #    date_txt = $(e.target).attr('date')
+  #    date = moment(date_txt, 'YYYY-MM-DD HH:mm').toDate()
+  #    if not xevent.findOne(date:date)
+  #      xCalendar.onDayClick({date:date, calendarId: xcalendarId.get()})
 
 slots = (ini, end, interval)->
   ret = []

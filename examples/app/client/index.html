@@ -14,11 +14,22 @@
     {{> xcalendar calendarid='myCalendar' template="datePatient"}}
     {{> dateAskModal }}
     {{> dateUpdateAskModal}}
+    {{> dateRemoveAskModal}}
 </template>
 
 <template name="dateEventTemplate">
-    <span class="delete-event" style="float: right">x</span>
-    <div class="patient-event">{{this.patient.name}}, {{this.text}}</div>
+    <div class="patient-event">
+        <span class="delete-event" style="float: right">x</span>
+        <div>{{this.patient.name}}, {{this.text}}</div>
+    </div>
+    <div class="ui popup">
+        <div class="header">{{this.patient.name}}</div>
+        <div class="">{{this.text}}</div>
+    </div>
+</template>
+
+<template name="dateSlotTemplate">
+    <div class="empty-slot">click para dar cita</div>
 </template>
 
 <template name="dateAskModal">
@@ -31,7 +42,7 @@
         <div class="content">
             <div class="description">
                 <div class="ui header">Vas a dar una cita a {{this.name}}.</div>
-                Observaciones: <input id="inputDateAskModal" type="text" value="">
+                Observaciones: <textarea rows="4" cols="50" id="inputDateAskModal"></textarea>
                 <p>Is it okay?</p>
             </div>
         </div>
@@ -58,7 +69,33 @@
             <div class="content">
                 <div class="description">
                     <div class="ui header">Vas a dar modificar la cita para {{this.patient.name}} y fecha {{this.date}}.</div>
-                    Observaciones: <input id="inputUpdateAskModal" type="text" value="{{this.text}}">
+                    Observaciones: <textarea rows="4" cols="50" id="inputUpdateAskModal">{{this.text}}</textarea>
+                    <p>Is it okay?</p>
+                </div>
+            </div>
+            <div class="actions">
+                <div class="ui black cancel button">
+                    No
+                </div>
+                <div class="ui positive right labeled icon button">
+                    Yes
+                    <i class="checkmark icon"></i>
+                </div>
+            </div>
+        </div>
+    {{/with}}
+</template>
+
+<template name="dateRemoveAskModal">
+    {{#with event}}
+        <div id='dateRemoveAskModal' class="ui modal">
+            <i class="close icon"></i>
+            <div class="header">
+                Alert!
+            </div>
+            <div class="content">
+                <div class="description">
+                    <div class="ui header">Vas a dar eliminar la cita para {{this.patient.name}} y fecha {{this.date}}.</div>
                     <p>Is it okay?</p>
                 </div>
             </div>
