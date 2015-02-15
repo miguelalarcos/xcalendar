@@ -17,6 +17,18 @@
     {{> dateRemoveAskModal}}
 </template>
 
+<template name="xCalendarLeft">
+    <div class="{{display this}}">{{this}}</div>
+</template>
+
+<template name="xCalendarTop">
+    {{>xCalendarButtons}}
+</template>
+
+<template name="xCalendarHead">
+    {{formatDate this}}
+</template>
+
 <template name="dateEventTemplate">
     <div class="patient-event">
         <span class="delete-event" style="float: right">x</span>

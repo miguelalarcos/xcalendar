@@ -2,7 +2,11 @@ patientId = new ReactiveVar(null)
 updateEvent = new ReactiveVar(null)
 removeEvent = new ReactiveVar(null)
 
-#xCalendar.onDayClick = (event) ->
+Template.xCalendarLeft.helpers
+  display: (hour)->
+    if /\d\d:30/.test(hour)
+      'not-display'
+
 Template.dateSlotTemplate.events
   'click .empty-slot': (e,t)->
     onApprove = ->

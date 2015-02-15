@@ -19,7 +19,8 @@ xCalendar.setCalendar = (_id) ->
   duration = calendar.duration
   xcalendarId.set _id
 
-Template.xcalendarInner.events
+#Template.xcalendarInner.events
+Template.xCalendarButtons.events
   'click #plusWeek': (e, t) ->
     xday.set xday.get().add(7, 'days')
   'click #minusWeek': (e, t) ->
@@ -57,7 +58,7 @@ Template.xcalendarInner.helpers
   head: ->
     ret = ['']
     for i in [1..5]
-      m = xday.get().clone().day(i).format('YYYY-MM-DD')
+      m = xday.get().clone().day(i).startOf('day')#.format('YYYY-MM-DD')
       ret.push m
     ret
   slot: -> slots(slotIni, slotEnd, duration) #slots('09:00','12:00',30)
