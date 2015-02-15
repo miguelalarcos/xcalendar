@@ -1,4 +1,5 @@
 patientId = new ReactiveVar(null)
+updateEvent = new ReactiveVar(null)
 
 attachEventSchema
   patientId:
@@ -8,16 +9,28 @@ setEventHelpers
   patient: ->
     patient.findOne(this.patientId)
 
-@patientCallback = (callback) ->
-  onApprove = ->
-    text = $('#inputDateAskModal').val()
-    callback
-      patientId: patientId.get()
-      text: text
-  $('#dateAskModal').modal(onApprove : onApprove).modal('show')
+setCalendarCallbacks
+  insert: (callback)->
+    onApprove = ->
+      text = $('#inputDateAskModal').val()
+      callback
+        patientId: patientId.get()
+        text: text
+    $('#dateAskModal').modal(onApprove : onApprove).modal('show')
+  update: (event, callback)->
+    updateEvent.set event
+    onApprove = ->
+      text = $('#inputUpdateAskModal').val()
+      callback {text: text}
+      updateEvent.set null
+    console.log updateEvent.get()
+    $('#dateUpdateAskModal').modal(onApprove : onApprove).modal('show')
 
 Template.dateAskModal.helpers
-  patient_: -> patient.findOne(patientId.get())
+  patient: -> patient.findOne(patientId.get())
+
+Template.dateUpdateAskModal.helpers
+  event: -> updateEvent.get() or {}
 
 @renderDatePatient = (event) ->
   event.patient().name + '<br>' + event.text

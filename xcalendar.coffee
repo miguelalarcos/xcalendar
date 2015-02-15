@@ -4,6 +4,12 @@ xday = new ReactiveVar(moment())
 waitForCalendarEvents = -> Meteor.subscribe 'weekEvents', xcalendarId.get(), xday.get().toDate()
 setCalendar = (_id) -> xcalendarId.set _id
 
+insertCallback = null
+updateCallback = null
+setCalendarCallbacks = (conf)->
+  insertCallback = conf.insert
+  updateCallback = conf.update
+
 Template.xcalendarInner.events
   'click #plusWeek': (e, t) ->
     xday.set xday.get().add(7, 'days')
@@ -18,10 +24,12 @@ Template.xcalendarInner.events
       _.extend(dct, data)
       xevent.insert(dct)
     if not xevent.findOne(date:date)
-      window[atts.callback](callback)
+      insertCallback(callback)
   'click .xevent': (e,t)->
     _id = $(e.target).attr('_id')
-    xevent.remove _id
+    callback = (data)->
+      xevent.update _id, {$set:data}
+    updateCallback(xevent.findOne(_id), callback)
 
 slots = (ini, end, interval)->
   ret = []

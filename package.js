@@ -29,5 +29,6 @@ Package.onUse(function(api) {
   api.export('setCalendar', 'client');
   api.export('setEventHelpers', 'client');
   api.export('publishWeekEvents', 'server');
+  api.export('setCalendarCallbacks', 'client');
 });
 

@@ -11,12 +11,13 @@
             <a class="calendar" href="" _id="{{this._id}}">{{this._id}}</a> {{this.name}}
         </div>
     {{/each}}
-    {{> xcalendar calendarid='myCalendar' callback="patientCallback" renderfunction="renderDatePatient"}}
+    {{> xcalendar calendarid='myCalendar' renderfunction="renderDatePatient"}}
     {{> dateAskModal }}
+    {{> dateUpdateAskModal}}
 </template>
 
 <template name="dateAskModal">
-    {{#with patient_}}
+    {{#with patient}}
     <div id='dateAskModal' class="ui modal">
         <i class="close icon"></i>
         <div class="header">
@@ -39,5 +40,32 @@
             </div>
         </div>
     </div>
+    {{/with}}
+</template>
+
+<template name="dateUpdateAskModal">
+    {{#with event}}
+        <div id='dateUpdateAskModal' class="ui modal">
+            <i class="close icon"></i>
+            <div class="header">
+                Alert!
+            </div>
+            <div class="content">
+                <div class="description">
+                    <div class="ui header">Vas a dar modificar la cita para {{this.patient.name}} y fecha {{this.date}}.</div>
+                    Observaciones: <input id="inputUpdateAskModal" type="text" value="{{this.text}}">
+                    <p>Is it okay?</p>
+                </div>
+            </div>
+            <div class="actions">
+                <div class="ui black cancel button">
+                    No
+                </div>
+                <div class="ui positive right labeled icon button">
+                    Yes
+                    <i class="checkmark icon"></i>
+                </div>
+            </div>
+        </div>
     {{/with}}
 </template>
