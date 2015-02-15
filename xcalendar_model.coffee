@@ -8,11 +8,11 @@ basicEventSchema =
   calendarId:
     type: String
 
-attachEventSchema = (schema) ->
+xCalendar.attachEventSchema = (schema) ->
   _.extend(schema, basicEventSchema)
   xevent.attachSchema(schema)
 
-setEventHelpers = (helpers) ->
+xCalendar.setEventHelpers = (helpers) ->
   xevent.helpers helpers
 
 @xcalendar = new Meteor.Collection "Calendar"

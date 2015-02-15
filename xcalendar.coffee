@@ -1,14 +1,18 @@
 xday = new ReactiveVar(moment())
-@xcalendarId = new ReactiveVar(null)
+xcalendarId = new ReactiveVar(null)
+#eventDom = []
 
-waitForCalendarEvents = -> Meteor.subscribe 'weekEvents', xcalendarId.get(), xday.get().toDate()
-setCalendar = (_id) -> xcalendarId.set _id
+slotIni = null
+slotEnd = null
+duration = null
 
-insertCallback = null
-updateCallback = null
-setCalendarCallbacks = (conf)->
-  insertCallback = conf.insert
-  updateCallback = conf.update
+xCalendar.waitForCalendarEvents = -> Meteor.subscribe 'weekEvents', xcalendarId.get(), xday.get().toDate()
+xCalendar.setCalendar = (_id) ->
+  calendar = xcalendar.findOne(_id)
+  slotIni = calendar.slotIni
+  slotEnd = calendar.slotEnd
+  duration = calendar.duration
+  xcalendarId.set _id
 
 Template.xcalendarInner.events
   'click #plusWeek': (e, t) ->
@@ -16,20 +20,11 @@ Template.xcalendarInner.events
   'click #minusWeek': (e, t) ->
     xday.set xday.get().add(-7, 'days')
   'click .day-slot': (e,t)->
-    atts = t.data
-    date_txt = $(e.target).attr('date')
-    date = moment(date_txt, 'YYYY-MM-DD HH:mm').toDate()
-    callback = (data)->
-      dct = {date:date, calendarId: xcalendarId.get()}
-      _.extend(dct, data)
-      xevent.insert(dct)
-    if not xevent.findOne(date:date)
-      insertCallback(callback)
-  'click .xevent': (e,t)->
-    _id = $(e.target).attr('_id')
-    callback = (data)->
-      xevent.update _id, {$set:data}
-    updateCallback(xevent.findOne(_id), callback)
+    if $(e.target).hasClass('day-slot')
+      date_txt = $(e.target).attr('date')
+      date = moment(date_txt, 'YYYY-MM-DD HH:mm').toDate()
+      if not xevent.findOne(date:date)
+        xCalendar.onDayClick({date:date, calendarId: xcalendarId.get()})
 
 slots = (ini, end, interval)->
   ret = []
@@ -42,16 +37,14 @@ slots = (ini, end, interval)->
     ini.add(interval, 'minutes')
   return ret
 
-slotIni = null
-slotEnd = null
-duration = null
-Tracker.autorun ->
-  _id = xcalendarId.get()
-  if _id
-    calendar = xcalendar.findOne(_id)
-    slotIni = calendar.slotIni
-    slotEnd = calendar.slotEnd
-    duration = calendar.duration
+
+#Tracker.autorun ->
+#  _id = xcalendarId.get()
+#  if _id
+#    calendar = xcalendar.findOne(_id)
+#    slotIni = calendar.slotIni
+#    slotEnd = calendar.slotEnd
+#    duration = calendar.duration
 
 Template.xcalendar.helpers
   calendarSelected: -> if xcalendarId.get() then true else false
@@ -72,35 +65,15 @@ Template.xcalendarInner.helpers
       m = xday.get().clone().day(i).hour(hour).minute(minute).format('YYYY-MM-DD HH:mm')
       ret.push m
     return ret
-  xxevent: (calendarId) ->
-    render = window[this.renderfunction]
-    #
-    m = moment(xday.get())
-    d1 = m.clone().day(1).startOf('day').toDate()
-    d2 = m.clone().day(8).startOf('day').toDate()
-    #
-    for event in xevent.find({calendarId: xcalendarId.get(), date: {$gte: d1, $lt: d2}}).fetch() # xevent.find({}).fetch()
-      content = render(event)
-      m = moment(event.date)
-      time = m.format('HH:mm')
-      row = 0
-      for slot, i in slots(slotIni, slotEnd, duration)
-        if slot == time
-          row = i
-          break
-      col = m.day()
 
-      el = $('#' + calendarId + ' tr:eq(' + row + ') td:eq(' + col + ')')
-      el.css({'background-color': 'green'})
-      el.html(content)
-      el.attr('_id', event._id)
-
-    return null
   xevent: (calendarId) ->
-    render = window[this.renderfunction]
+    #for eventD in eventDom
+    #  Blaze.remove eventD
+    #eventDom = []
+    #template = this.template
     ret = xevent.find().fetch()
     for event in ret
-      event.content = render(event)
+      #event.content = render(event)
       m = moment(event.date)
       time = m.format('HH:mm')
       row = 0
@@ -110,7 +83,10 @@ Template.xcalendarInner.helpers
           break
       col = m.day()
 
-      position = $('#' + calendarId + ' tr:eq(' + row + ') td:eq(' + col + ')').position()
+      parent = $('#' + calendarId + ' tr:eq(' + row + ') td:eq(' + col + ')')#[0]
+      #eventDom.push Blaze.renderWithData(Template[template], event, parent)
+    #return null
+      position = parent.position()
       if position
         left = position.left
         top = position.top

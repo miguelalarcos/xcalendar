@@ -1,43 +1,38 @@
 patientId = new ReactiveVar(null)
 updateEvent = new ReactiveVar(null)
 
-attachEventSchema
-  patientId:
-    type: String
-
-setEventHelpers
-  patient: ->
-    patient.findOne(this.patientId)
-
-setCalendarCallbacks
-  insert: (callback)->
+xCalendar.onDayClick = (event) ->
     onApprove = ->
       text = $('#inputDateAskModal').val()
-      callback
-        patientId: patientId.get()
-        text: text
+      $('#inputDateAskModal').val('')
+      event.patientId = patientId.get()
+      event.text = text
+      xCalendar.insert event
     $('#dateAskModal').modal(onApprove : onApprove).modal('show')
-  update: (event, callback)->
-    updateEvent.set event
+
+Template.dateEventTemplate.events
+  'click .delete-event': (e, t)->
+    xCalendar.remove t.data._id
+  'click .patient-event': (e, t)->
+    updateEvent.set t.data
+    _id = t.data._id
     onApprove = ->
       text = $('#inputUpdateAskModal').val()
-      callback {text: text}
-      updateEvent.set null
-    console.log updateEvent.get()
+      xCalendar.update _id, {text: text}
     $('#dateUpdateAskModal').modal(onApprove : onApprove).modal('show')
 
 Template.dateAskModal.helpers
   patient: -> patient.findOne(patientId.get())
 
 Template.dateUpdateAskModal.helpers
-  event: -> updateEvent.get() or {}
+  event: -> updateEvent.get() or {} # why???
 
-@renderDatePatient = (event) ->
-  event.patient().name + '<br>' + event.text
+#@renderDatePatient = (event) ->
+#  Blaze.toHTMLWithData(Template.datePatient, event)
 
 class @HomeController extends RouteController
   waitOn: ->
-    waitForCalendarEvents()
+    xCalendar.waitForCalendarEvents()
     Meteor.subscribe 'patients'
     Meteor.subscribe 'calendars'
 
@@ -53,5 +48,5 @@ Template.home.events
   'click .calendar': (e,t)->
     _id = $(e.target).attr('_id')
     #calendarId.set _id
-    setCalendar _id
+    xCalendar.setCalendar _id
     console.log 'calendar id set'

@@ -1,4 +1,4 @@
-publishWeekEvents = (children) ->
+xCalendar.publishWeekEvents = (children) ->
   Meteor.publishComposite 'weekEvents', (calendarId, date) ->
     m = moment(date)
     d1 = m.clone().day(1).startOf('day').toDate()

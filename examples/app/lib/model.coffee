@@ -6,3 +6,11 @@ schema = new SimpleSchema
     type: String
 
 patient.attachSchema(schema)
+
+xCalendar.attachEventSchema
+  patientId:
+    type: String
+
+xCalendar.setEventHelpers
+  patient: ->
+    patient.findOne(this.patientId)

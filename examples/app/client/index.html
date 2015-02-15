@@ -11,9 +11,14 @@
             <a class="calendar" href="" _id="{{this._id}}">{{this._id}}</a> {{this.name}}
         </div>
     {{/each}}
-    {{> xcalendar calendarid='myCalendar' renderfunction="renderDatePatient"}}
+    {{> xcalendar calendarid='myCalendar' template="datePatient"}}
     {{> dateAskModal }}
     {{> dateUpdateAskModal}}
+</template>
+
+<template name="dateEventTemplate">
+    <span class="delete-event" style="float: right">x</span>
+    <div class="patient-event">{{this.patient.name}}, {{this.text}}</div>
 </template>
 
 <template name="dateAskModal">
@@ -26,7 +31,7 @@
         <div class="content">
             <div class="description">
                 <div class="ui header">Vas a dar una cita a {{this.name}}.</div>
-                Observaciones: <input id="inputDateAskModal" type="text">
+                Observaciones: <input id="inputDateAskModal" type="text" value="">
                 <p>Is it okay?</p>
             </div>
         </div>

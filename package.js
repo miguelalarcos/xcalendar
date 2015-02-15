@@ -19,16 +19,12 @@ Package.onUse(function(api) {
   api.use('tracker', 'client');
   api.use('reactive-var', 'client');
   api.addFiles('xcalendar.html', 'client');
+  api.addFiles('xcalendar_base.coffee', ['client', 'server']);
   api.addFiles('xcalendar_model.coffee', ['client', 'server']);
   api.addFiles('xcalendar.coffee', 'client');
   api.addFiles('xcalendar.css', 'client');
   api.addFiles('xcalendar_publications.coffee', 'server');
 
-  api.export('attachEventSchema', 'client');
-  api.export('waitForCalendarEvents', 'client');
-  api.export('setCalendar', 'client');
-  api.export('setEventHelpers', 'client');
-  api.export('publishWeekEvents', 'server');
-  api.export('setCalendarCallbacks', 'client');
+  api.export('xCalendar', ['client', 'server']);
 });
 

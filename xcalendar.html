@@ -23,7 +23,9 @@
         {{/each}}
     </table>
     {{#each xevent this.calendarid}}
-        <div class="xevent" _id="{{this._id}}" style="{{this.style}}">{{{this.content}}}</div>
+        <div class="xevent" _id="{{this._id}}" style="{{this.style}}">
+            {{> dateEventTemplate}}
+        </div>
     {{/each}}
     <!--{{ xevent this.calendarid}}-->
 </template>
