@@ -9,23 +9,23 @@
 <template name="xcalendarInner">
     {{#if isWeekView}}
         {{#with top}}
-            {{> xCalendarTop}}
+            {{> xCalendarWeekTop}}
         {{/with}}
         <table id="weekViewTable">
             {{#each head}}
-                <th>{{> xCalendarHead}}</th>
+                <th>{{> xCalendarWeekHead}}</th>
             {{/each}}
             {{#each slot}}
                 <tr>
-                    <td>{{> xCalendarLeft}}</td>
+                    <td>{{> xCalendarWeekLeft}}</td>
                     {{#each day this}}
                         <td date="{{this}}" class="day-slot">
                             {{#if existsAppointment this}}
                                 {{#with xevent this}}
-                                    {{> xEventTemplate}}
+                                    {{> xCalendarEvent}}
                                 {{/with}}
                             {{else}}
-                                {{> xSlotTemplate}}
+                                {{> xCalendarSlot}}
                             {{/if}}
                         </td>
                     {{/each}}
@@ -39,17 +39,17 @@
 
 <template name="xCalendarInnerDay">
     {{#with top}}
-        {{> xDayCalendarTop}}
+        {{> xCalendarDayTop}}
     {{/with}}
     <div class="ui table">
         <table id="dayViewTable">
             {{#each slot}}
                 {{#if existsAppointment this}}
                     {{#with xevent this}}
-                        {{> xDayCalendarRowTemplate}}
+                        {{> xCalendarDayRow}}
                     {{/with}}
                 {{else}}
-                    {{> xDayCalendarRowEmptyTemplate}}
+                    {{> xCalendarDayEmptyRow}}
                 {{/if}}
             {{/each}}
         </table>

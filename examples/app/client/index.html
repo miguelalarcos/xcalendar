@@ -21,15 +21,15 @@
     </div>
 </template>
 
-<template name="xDayCalendarRowEmptyTemplate">
+<template name="xCalendarDayEmptyRow">
     <tr class="empty-day-row"><td>{{this}}</td></tr>
 </template>
 
-<template name="xDayCalendarRowTemplate">
+<template name="xCalendarDayRow">
    <tr _id="{{this.doc._id}}" class="event-day-row {{this.doc.status}}"><td>{{this.slot}}</td><td>{{this.doc.patient.nhc}}</td><td>{{this.doc.patient.fullName}}</td><td>{{this.doc.text}}</td></tr>
 </template>
 
-<template name="xDayCalendarTop">
+<template name="xCalendarDayTop">
     {{>xCalendarButtonMinusDay}}
     {{>xCalendarButtonPlusDay}}
     {{>xCalendarButtonToday}}
@@ -41,13 +41,13 @@
     {{this}}
 </template>
 
-<template name="xCalendarLeft">
+<template name="xCalendarWeekLeft">
     {{#if display this}}
         <div class="cursive">{{this}}</div>
     {{/if}}
 </template>
 
-<template name="xCalendarTop">
+<template name="xCalendarWeekTop">
     {{>xCalendarButtonMinus}}
     {{>xCalendarButtonPlus}}
     {{>xCalendarButtonToday}}
@@ -61,11 +61,11 @@
     {{>xCalendarButtonChangeView}}
 </template>
 
-<template name="xCalendarHead">
+<template name="xCalendarWeekHead">
     {{formatDateDay this}}
 </template>
 
-<template name="xEventTemplate">
+<template name="xCalendarEvent">
     <div class="patient-event {{this.status}}">
         <b><a href="" class="delete-event" style="float: right">x</a></b>
         <span style="float: right">&nbsp;&nbsp;</span>
@@ -78,7 +78,7 @@
     </div>
 </template>
 
-<template name="xSlotTemplate">
+<template name="xCalendarSlot">
     <div class="empty-slot">click for appointment</div>
 </template>
 
@@ -145,7 +145,7 @@
             </div>
             <div class="content">
                 <div class="description">
-                    <div class="ui header">You are going to delete the appointment for {{this.patient.nhc}} adn date {{formatDateTime this.date}}.</div>
+                    <div class="ui header">You are going to delete the appointment for {{this.patient.nhc}} and date {{formatDateTime this.date}}.</div>
                     <p>Is it okay?</p>
                 </div>
             </div>

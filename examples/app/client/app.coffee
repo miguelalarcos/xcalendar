@@ -3,14 +3,14 @@ updateEvent = new ReactiveVar(null)
 removeEvent = new ReactiveVar(null)
 reprogrammingEvent = new ReactiveVar(null)
 
-Template.xCalendarLeft.helpers
+Template.xCalendarWeekLeft.helpers
   display: (hour)->
     if /\d\d:30/.test(hour)
       false
     else
       true
 
-Template.xDayCalendarRowTemplate.events
+Template.xCalendarDayRow.events
   'click td': (e,t)->
     _id = $(e.target).parent().attr('_id')
     status = t.data.doc.status
@@ -22,18 +22,15 @@ Template.xDayCalendarRowTemplate.events
       status = 'pending'
     xCalendar.update _id, {status: status}
 
-Template.xCalendarTop.helpers
+Template.xCalendarWeekTop.helpers
   displayCancelReprogramming: -> if reprogrammingEvent.get() then true else false
 
-Template.xCalendarTop.events
+Template.xCalendarWeekTop.events
   'click #cancelReprogramming': (e, t)-> reprogrammingEvent.set null
 
-Template.xSlotTemplate.events
+Template.xCalendarSlot.events
   'click .empty-slot': (e,t)->
-    #date_txt = t.data
-    #date = moment(date_txt, 'YYYY-MM-DD HH:mm').toDate()
     date = t.data.toDate()
-    console.log date
     event = reprogrammingEvent.get()
     if event
       xCalendar.update event._id, {date: date}
@@ -48,14 +45,14 @@ Template.xSlotTemplate.events
         xCalendar.insert event
       $('#dateAskModal').modal(onApprove : onApprove).modal('show')
 
-Template.xEventTemplate.helpers
+Template.xCalendarEvent.helpers
   sub: (txt, len)->
     if txt.length > len
       return txt[0..len] + '...'
     else
       return txt
 
-Template.xEventTemplate.events
+Template.xCalendarEvent.events
   'click .reprogramming-event':(e,t)->
     reprogrammingEvent.set t.data
   'click .delete-event': (e, t)->
@@ -103,6 +100,6 @@ Template.home.events
     xCalendar.setCalendar _id
     console.log 'calendar id set'
 
-Template.xEventTemplate.rendered = ->
+Template.xCalendarEvent.rendered = ->
   for el in this.findAll('.patient-event')
     $(el).popup()
