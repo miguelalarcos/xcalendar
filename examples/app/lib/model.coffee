@@ -1,5 +1,7 @@
 @patient = new Meteor.Collection "Patient"
 schema = new SimpleSchema
+  nhc:
+    type: String
   name:
     type: String
   surname:

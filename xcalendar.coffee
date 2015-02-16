@@ -51,28 +51,23 @@ Template.xcalendarInner.helpers
   head: ->
     ret = ['']
     for i in [1..5]
-      m = xday.get().clone().day(i).startOf('day')#.format('YYYY-MM-DD')
+      m = xday.get().clone().day(i).startOf('day')
       ret.push m
     ret
-  slot: -> slots(slotIni, slotEnd, duration) #slots('09:00','12:00',30)
+  slot: -> slots(slotIni, slotEnd, duration)
   day: (slot)->
     slot = slot.split(':')
     hour = parseInt(slot[0])
     minute = parseInt(slot[1])
     ret = []
     for i in [1..5]
-      m = xday.get().clone().day(i).hour(hour).minute(minute).format('YYYY-MM-DD HH:mm')
+      m = xday.get().clone().local().day(i).hour(hour).minute(minute).startOf('minute')#.format('YYYY-MM-DD HH:mm')
       ret.push m
     return ret
 
   xevent: (calendarId) ->
-    #for eventD in eventDom
-    #  Blaze.remove eventD
-    #eventDom = []
-    #template = this.template
     ret = xevent.find().fetch()
     for event in ret
-      #event.content = render(event)
       m = moment(event.date)
       time = m.format('HH:mm')
       row = 0
@@ -83,8 +78,7 @@ Template.xcalendarInner.helpers
       col = m.day()
 
       parent = $('#' + calendarId + ' tr:eq(' + row + ') td:eq(' + col + ')')#[0]
-      #eventDom.push Blaze.renderWithData(Template[template], event, parent)
-    #return null
+
       position = parent.position()
       if position
         left = position.left

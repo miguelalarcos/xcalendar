@@ -1,11 +1,19 @@
+#xevent.remove({})
+
 if patient.find().count() == 0
   patient.insert
+    nhc: '1234'
     name: 'Miguel'
+    surname: 'Alarcos'
+
+  patient.insert
+    nhc: '5678'
+    name: 'Verónica'
     surname: 'Alarcos'
 
 if xcalendar.find().count() == 0
   xcalendar.insert
-    name: 'agenda01'
+    name: 'calendar01'
     slotIni: '09:00'
     slotEnd: '12:00'
     duration: 30

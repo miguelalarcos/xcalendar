@@ -19,7 +19,7 @@
                 <td>{{> xCalendarLeft}}</td>
                 {{#each day this}}
                     <td date="{{this}}" class="day-slot">
-                        {{> dateSlotTemplate}}
+                        {{> xSlotTemplate}}
                     </td>
                 {{/each}}
             </tr>
@@ -27,7 +27,7 @@
     </table>
     {{#each xevent this.calendarid}}
         <div class="xevent" _id="{{this._id}}" style="{{this.style}}">
-            {{> dateEventTemplate}}
+            {{> xEventTemplate}}
         </div>
     {{/each}}
 </template>

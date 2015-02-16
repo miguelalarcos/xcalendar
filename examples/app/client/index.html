@@ -1,20 +1,24 @@
 <template name="home">
-    Click on the patient id:
-    {{#each patients}}
-        <div>
-            <a class="patient" href="" _id="{{this._id}}">{{this._id}}</a> {{this.name}} {{this.surname}}
-        </div>
-    {{/each}}
-    Click on the calendar id:
-    {{#each calendars}}
-        <div>
-            <a class="calendar" href="" _id="{{this._id}}">{{this._id}}</a> {{this.name}}
-        </div>
-    {{/each}}
-    {{> xcalendar calendarid='myCalendar' template="datePatient"}}
-    {{> dateAskModal }}
-    {{> dateUpdateAskModal}}
-    {{> dateRemoveAskModal}}
+    <div align="center">
+        <h1>Demo of xCalendar</h1>
+        <h3>You have to select a patient and a calendar</h3>
+        Click on a patient id:
+        {{#each patients}}
+            <div>
+                <a class="patient" href="" _id="{{this._id}}">{{this._id}}</a> {{this.name}} {{this.surname}}
+            </div>
+        {{/each}}
+        Click on the next calendar id:
+        {{#each calendars}}
+            <div>
+                <a class="calendar" href="" _id="{{this._id}}">{{this._id}}</a> {{this.name}}
+            </div>
+        {{/each}}
+        {{> xcalendar calendarid='myCalendar'}}
+        {{> dateAskModal }}
+        {{> dateUpdateAskModal}}
+        {{> dateRemoveAskModal}}
+    </div>
 </template>
 
 <template name="xCalendarLeft">
@@ -40,21 +44,21 @@
     {{formatDateDay this}}
 </template>
 
-<template name="dateEventTemplate">
+<template name="xEventTemplate">
     <div class="patient-event">
         <b><a href="" class="delete-event" style="float: right">x</a></b>
         <span style="float: right">&nbsp;&nbsp;</span>
         <b><a href="" class="reprogramming-event" style="float: right">R</a></b>
-        <div class="content-patient-event">{{this.patient.name}} {{this.patient.surname}}, {{sub this.text 25}}</div>
+        <div class="content-patient-event"><div><b>{{this.patient.nhc}}</b></div>{{this.patient.name}} {{this.patient.surname}}, {{sub this.text 25}}</div>
     </div>
     <div class="ui popup">
-        <div class="header">{{this.patient.name}}</div>
+        <div class="header">{{this.patient.nhc}}, {{this.patient.name}}</div>
         <div class="content-popup">{{this.text}}</div>
     </div>
 </template>
 
-<template name="dateSlotTemplate">
-    <div class="empty-slot">click para dar cita</div>
+<template name="xSlotTemplate">
+    <div class="empty-slot">click for appointment</div>
 </template>
 
 <template name="dateAskModal">
@@ -66,7 +70,7 @@
         </div>
         <div class="content">
             <div class="description">
-                <div class="ui header">Vas a dar una cita a {{this.name}}.</div>
+                <div class="ui header">You are going to give an appointment to {{this.nhc}}.</div>
                 Observaciones: <textarea rows="4" cols="50" id="inputDateAskModal"></textarea>
                 <p>Is it okay?</p>
             </div>
@@ -93,7 +97,7 @@
             </div>
             <div class="content">
                 <div class="description">
-                    <div class="ui header">Vas a dar modificar la cita para {{this.patient.name}} y fecha {{this.date}}.</div>
+                    <div class="ui header">You are going to modify the appointment for {{this.patient.nhc}} and date {{formatDate this.date}}.</div>
                     Observaciones: <textarea rows="4" cols="50" id="inputUpdateAskModal">{{this.text}}</textarea>
                     <p>Is it okay?</p>
                 </div>
@@ -120,7 +124,7 @@
             </div>
             <div class="content">
                 <div class="description">
-                    <div class="ui header">Vas a dar eliminar la cita para {{this.patient.name}} y fecha {{formatDate this.date}}.</div>
+                    <div class="ui header">You are going to delete the appointment for {{this.patient.nhc}} adn date {{formatDate this.date}}.</div>
                     <p>Is it okay?</p>
                 </div>
             </div>

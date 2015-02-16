@@ -16,32 +16,34 @@ Template.xCalendarTop.helpers
 Template.xCalendarTop.events
   'click #cancelReprogramming': (e, t)-> reprogrammingEvent.set null
 
-Template.dateSlotTemplate.events
+Template.xSlotTemplate.events
   'click .empty-slot': (e,t)->
-    date_txt = t.data
-    date = moment(date_txt, 'YYYY-MM-DD HH:mm').toDate()
+    #date_txt = t.data
+    #date = moment(date_txt, 'YYYY-MM-DD HH:mm').toDate()
+    date = t.data.toDate()
+    console.log date
     event = reprogrammingEvent.get()
     if event
       xCalendar.update event._id, {date: date}
       reprogrammingEvent.set null
-      return
-    onApprove = ->
-      text = $('#inputDateAskModal').val()
-      $('#inputDateAskModal').val('')
-      event = {date: date}
-      event.patientId = patientId.get()
-      event.text = text
-      xCalendar.insert event
-    $('#dateAskModal').modal(onApprove : onApprove).modal('show')
+    else
+      onApprove = ->
+        text = $('#inputDateAskModal').val()
+        $('#inputDateAskModal').val('')
+        event = {date: date}
+        event.patientId = patientId.get()
+        event.text = text
+        xCalendar.insert event
+      $('#dateAskModal').modal(onApprove : onApprove).modal('show')
 
-Template.dateEventTemplate.helpers
+Template.xEventTemplate.helpers
   sub: (txt, len)->
     if txt.length > len
       return txt[0..len] + '...'
     else
       return txt
 
-Template.dateEventTemplate.events
+Template.xEventTemplate.events
   'click .reprogramming-event':(e,t)->
     reprogrammingEvent.set t.data
   'click .delete-event': (e, t)->
@@ -89,6 +91,6 @@ Template.home.events
     xCalendar.setCalendar _id
     console.log 'calendar id set'
 
-Template.dateEventTemplate.rendered = ->
+Template.xEventTemplate.rendered = ->
   for el in this.findAll('.patient-event')
     $(el).popup()
