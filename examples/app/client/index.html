@@ -1,11 +1,11 @@
 <template name="home">
-    Patients:
+    Click on the patient id:
     {{#each patients}}
         <div>
             <a class="patient" href="" _id="{{this._id}}">{{this._id}}</a> {{this.name}} {{this.surname}}
         </div>
     {{/each}}
-    Calendars:
+    Click on the calendar id:
     {{#each calendars}}
         <div>
             <a class="calendar" href="" _id="{{this._id}}">{{this._id}}</a> {{this.name}}
@@ -18,25 +18,38 @@
 </template>
 
 <template name="xCalendarLeft">
-    <div class="{{display this}}">{{this}}</div>
+    {{#if display this}}
+        <div class="cursive">{{this}}</div>
+    {{/if}}
 </template>
 
 <template name="xCalendarTop">
-    {{>xCalendarButtons}}
+    {{>xCalendarButtonMinus}}
+    {{>xCalendarButtonPlus}}
+    {{>xCalendarButtonToday}}
+    {{#if displayCancelReprogramming}}
+        <a href="" id="cancelReprogramming">Cancel reprogramming</a>
+    {{/if}}
+    <span>
+        <span class="title">{{this.calendar}}</span>
+        <span><b>&nbsp;&nbsp;&nbsp;&nbsp;{{formatDateMonthYear this.date}}</b></span>
+    </span>
 </template>
 
 <template name="xCalendarHead">
-    {{formatDate this}}
+    {{formatDateDay this}}
 </template>
 
 <template name="dateEventTemplate">
     <div class="patient-event">
-        <span class="delete-event" style="float: right">x</span>
-        <div>{{this.patient.name}}, {{this.text}}</div>
+        <b><a href="" class="delete-event" style="float: right">x</a></b>
+        <span style="float: right">&nbsp;&nbsp;</span>
+        <b><a href="" class="reprogramming-event" style="float: right">R</a></b>
+        <div class="content-patient-event">{{this.patient.name}} {{this.patient.surname}}, {{sub this.text 25}}</div>
     </div>
     <div class="ui popup">
         <div class="header">{{this.patient.name}}</div>
-        <div class="">{{this.text}}</div>
+        <div class="content-popup">{{this.text}}</div>
     </div>
 </template>
 
@@ -107,7 +120,7 @@
             </div>
             <div class="content">
                 <div class="description">
-                    <div class="ui header">Vas a dar eliminar la cita para {{this.patient.name}} y fecha {{this.date}}.</div>
+                    <div class="ui header">Vas a dar eliminar la cita para {{this.patient.name}} y fecha {{formatDate this.date}}.</div>
                     <p>Is it okay?</p>
                 </div>
             </div>

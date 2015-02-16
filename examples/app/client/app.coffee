@@ -1,26 +1,49 @@
 patientId = new ReactiveVar(null)
 updateEvent = new ReactiveVar(null)
 removeEvent = new ReactiveVar(null)
+reprogrammingEvent = new ReactiveVar(null)
 
 Template.xCalendarLeft.helpers
   display: (hour)->
     if /\d\d:30/.test(hour)
-      'not-display'
+      false
+    else
+      true
+
+Template.xCalendarTop.helpers
+  displayCancelReprogramming: -> if reprogrammingEvent.get() then true else false
+
+Template.xCalendarTop.events
+  'click #cancelReprogramming': (e, t)-> reprogrammingEvent.set null
 
 Template.dateSlotTemplate.events
   'click .empty-slot': (e,t)->
+    date_txt = t.data
+    date = moment(date_txt, 'YYYY-MM-DD HH:mm').toDate()
+    event = reprogrammingEvent.get()
+    if event
+      xCalendar.update event._id, {date: date}
+      reprogrammingEvent.set null
+      return
     onApprove = ->
       text = $('#inputDateAskModal').val()
       $('#inputDateAskModal').val('')
-      date_txt = t.data
-      date = moment(date_txt, 'YYYY-MM-DD HH:mm').toDate()
       event = {date: date}
       event.patientId = patientId.get()
       event.text = text
       xCalendar.insert event
     $('#dateAskModal').modal(onApprove : onApprove).modal('show')
 
+Template.dateEventTemplate.helpers
+  sub: (txt, len)->
+    if txt.length > len
+      return txt[0..len] + '...'
+    else
+      return txt
+
 Template.dateEventTemplate.events
+  'click .reprogramming-event':(e,t)->
+    reprogrammingEvent.set t.data
   'click .delete-event': (e, t)->
     removeEvent.set t.data
     _id = t.data._id
@@ -28,14 +51,13 @@ Template.dateEventTemplate.events
       xCalendar.remove _id
     $('#dateRemoveAskModal').modal(onApprove : onApprove).modal('show')
   'click .patient-event': (e, t)->
-    if not $(e.target).hasClass('patient-event')
-      return
-    updateEvent.set t.data
-    _id = t.data._id
-    onApprove = ->
-      text = $('#inputUpdateAskModal').val()
-      xCalendar.update _id, {text: text}
-    $('#dateUpdateAskModal').modal(onApprove : onApprove).modal('show')
+    if $(e.target).hasClass('patient-event') or $(e.target).hasClass('content-patient-event')
+      updateEvent.set t.data
+      _id = t.data._id
+      onApprove = ->
+        text = $('#inputUpdateAskModal').val()
+        xCalendar.update _id, {text: text}
+      $('#dateUpdateAskModal').modal(onApprove : onApprove).modal('show')
 
 Template.dateAskModal.helpers
   patient: -> patient.findOne(patientId.get())

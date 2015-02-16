@@ -7,7 +7,9 @@
 </template>
 
 <template name="xcalendarInner">
-    {{> xCalendarTop}}
+    {{#with top}}
+        {{> xCalendarTop}}
+    {{/with}}
     <table>
         {{#each head}}
             <th>{{> xCalendarHead}}</th>
@@ -28,13 +30,18 @@
             {{> dateEventTemplate}}
         </div>
     {{/each}}
-    <!--{{ xevent this.calendarid}}-->
 </template>
 
-<template name="xCalendarButtons">
-    <button class="ui button" id="plusWeek"><i class="plus icon"></i></button>
+<template name="xCalendarButtonMinus">
     <button class="ui button" id="minusWeek"><i class="minus icon"></i></button>
 </template>
 
+<template name="xCalendarButtonPlus">
+    <button class="ui button" id="plusWeek"><i class="plus icon"></i></button>
+</template>
+
+<template name="xCalendarButtonToday">
+    <button class="ui button" id="xCalendarToday">Today</button>
+</template>
 
 

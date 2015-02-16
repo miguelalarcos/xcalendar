@@ -1,4 +1,4 @@
-.delete-event {
+.delete-event, .reprogramming-event {
     cursor: pointer;
 }
 
@@ -17,6 +17,20 @@
     height: 50px;
 }
 
-.not-display {
-    display: none;
+.content-popup {
+    width: 200px;
+    word-wrap: break-word;
 }
+
+.content-patient-event{
+    word-wrap: break-word;
+}
+
+.cursive {
+    font-style: italic;
+}
+
+.title {
+    font-size: 200%;
+}
+

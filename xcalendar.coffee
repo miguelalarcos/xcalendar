@@ -1,4 +1,4 @@
-xday = new ReactiveVar(moment())
+xday = new ReactiveVar(moment.utc())
 xcalendarId = new ReactiveVar(null)
 
 xCalendar.insert = (data) ->
@@ -19,24 +19,21 @@ xCalendar.setCalendar = (_id) ->
   duration = calendar.duration
   xcalendarId.set _id
 
-#Template.xcalendarInner.events
-Template.xCalendarButtons.events
+Template.xCalendarButtonPlus.events
   'click #plusWeek': (e, t) ->
     xday.set xday.get().add(7, 'days')
+Template.xCalendarButtonMinus.events
   'click #minusWeek': (e, t) ->
     xday.set xday.get().add(-7, 'days')
-  #'click .day-slot': (e,t)->
-  #  if $(e.target).hasClass('day-slot')
-  #    date_txt = $(e.target).attr('date')
-  #    date = moment(date_txt, 'YYYY-MM-DD HH:mm').toDate()
-  #    if not xevent.findOne(date:date)
-  #      xCalendar.onDayClick({date:date, calendarId: xcalendarId.get()})
+Template.xCalendarButtonToday.events
+  'click #xCalendarToday': (e,t)->
+    xday.set moment.utc()
 
 slots = (ini, end, interval)->
   ret = []
   ini = ini.split(':')
   end = end.split(':')
-  ini = moment().hour(ini[0]).minute(ini[1]).startOf('minute')
+  ini = moment.utc().hour(ini[0]).minute(ini[1]).startOf('minute')
   end = ini.clone().hour(end[0]).minute(end[1]).startOf('minute')
   while ini.isBefore(end)
     ret.push ini.format('HH:mm')
@@ -44,17 +41,13 @@ slots = (ini, end, interval)->
   return ret
 
 
-#Tracker.autorun ->
-#  _id = xcalendarId.get()
-#  if _id
-#    calendar = xcalendar.findOne(_id)
-#    slotIni = calendar.slotIni
-#    slotEnd = calendar.slotEnd
-#    duration = calendar.duration
-
 Template.xcalendar.helpers
   calendarSelected: -> if xcalendarId.get() then true else false
+
 Template.xcalendarInner.helpers
+  top: ->
+    calendar: xcalendar.findOne(xcalendarId.get()).name
+    date: xday.get()
   head: ->
     ret = ['']
     for i in [1..5]
