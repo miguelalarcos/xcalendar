@@ -6,7 +6,7 @@ A simple and native calendar for Meteor.
 Explanation
 -----------
 
-You have a demo here.
+You have a demo [here](http://xcalendar.meteor.com). I would like to create a native Meteor and full calendar; help is welcome :)
 
 This is the core template of xCalendar:
 ```html
@@ -37,7 +37,7 @@ This is the core template of xCalendar:
 </template>
 ```
 
-You have to implement the next templates ```xCalendarTop```, ```xCalendarHead```, ```xCalendarLeft```, ```xSlotTemplate```, ```xEventTemplate```.
+You have to implement the next templates ```xCalendarTop```, ```xCalendarHead```, ```xCalendarLeft```, ```xSlotTemplate``` and ```xEventTemplate```.
 
 For example:
 

@@ -8,8 +8,8 @@ if patient.find().count() == 0
 
   patient.insert
     nhc: '5678'
-    name: 'Verónica'
-    surname: 'Alarcos'
+    name: 'María'
+    surname: 'Hidalgo'
 
 if xcalendar.find().count() == 0
   xcalendar.insert
