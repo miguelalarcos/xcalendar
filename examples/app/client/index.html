@@ -21,6 +21,25 @@
     </div>
 </template>
 
+<template name="xDayCalendarRowEmptyTemplate">
+    <tr><td>{{this}}</td></tr>
+</template>
+
+<template name="xDayCalendarRowTemplate">
+   <tr><td>{{this.slot}}</td><td>{{this.doc.patient.nhc}}</td><td>{{this.doc.patient.fullName}}</td><td>{{this.doc.text}}</td></tr>
+</template>
+
+<template name="xDayCalendarTop">
+    {{>xCalendarButtonMinusDay}}
+    {{>xCalendarButtonPlusDay}}
+    {{>xCalendarButtonToday}}
+    {{>xCalendarButtonChangeView}}
+</template>
+
+<template name="xDayCalendarRow">
+    {{this}}
+</template>
+
 <template name="xCalendarLeft">
     {{#if display this}}
         <div class="cursive">{{this}}</div>
@@ -38,6 +57,7 @@
         <span class="title">{{this.calendar}}</span>
         <span><b>&nbsp;&nbsp;&nbsp;&nbsp;{{formatDateMonthYear this.date}}</b></span>
     </span>
+    {{>xCalendarButtonChangeView}}
 </template>
 
 <template name="xCalendarHead">
@@ -52,7 +72,7 @@
         <div class="content-patient-event"><div><b>{{this.patient.nhc}}</b></div>{{this.patient.name}} {{this.patient.surname}}, {{sub this.text 25}}</div>
     </div>
     <div class="ui popup">
-        <div class="header">{{this.patient.nhc}}, {{this.patient.name}}</div>
+        <div class="header">{{this.patient.nhc}}, {{this.patient.name}}, {{this.date}}</div>
         <div class="content-popup">{{this.text}}</div>
     </div>
 </template>

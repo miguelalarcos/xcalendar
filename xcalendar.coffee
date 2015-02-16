@@ -1,5 +1,6 @@
 xday = new ReactiveVar(moment.utc())
 xcalendarId = new ReactiveVar(null)
+isWeekView = new ReactiveVar(true)
 
 xCalendar.insert = (data) ->
   data.calendarId = xcalendarId.get()
@@ -20,14 +21,22 @@ xCalendar.setCalendar = (_id) ->
   xcalendarId.set _id
 
 Template.xCalendarButtonPlus.events
-  'click #plusWeek': (e, t) ->
+  'click button': (e, t) ->
     xday.set xday.get().add(7, 'days')
 Template.xCalendarButtonMinus.events
-  'click #minusWeek': (e, t) ->
+  'click button': (e, t) ->
     xday.set xday.get().add(-7, 'days')
 Template.xCalendarButtonToday.events
-  'click #xCalendarToday': (e,t)->
+  'click button': (e,t)->
     xday.set moment.utc()
+Template.xCalendarButtonChangeView.events
+  'click button': (e,t) ->
+    isWeekView.set not isWeekView.get()
+Template.xCalendarButtonMinusDay.events
+  'click button': (e,t) -> xday.set xday.get().add(-1, 'days')
+Template.xCalendarButtonPlusDay.events
+  'click button': (e,t) -> xday.set xday.get().add(1, 'days')
+
 
 slots = (ini, end, interval)->
   ret = []
@@ -44,7 +53,27 @@ slots = (ini, end, interval)->
 Template.xcalendar.helpers
   calendarSelected: -> if xcalendarId.get() then true else false
 
+Template.xCalendarInnerDay.helpers
+  #isEmpty: (x) -> x.doc is undefined
+  existsAppointment: (slot)->
+    day = xday.get().format('YYYY-MM-DD')
+    d = moment(day + ' ' + slot, 'YYYY-MM-DD HH:mm').toDate()
+    xevent.findOne(date:d)
+  slot: -> slots(slotIni, slotEnd, duration)
+  top: ->
+    calendar: xcalendar.findOne(xcalendarId.get()).name
+    date: xday.get()
+  xevent: (slot) ->
+    day = xday.get().format('YYYY-MM-DD')
+    d = moment(day + ' ' + slot, 'YYYY-MM-DD HH:mm').toDate()
+    {doc: xevent.findOne(date:d), slot: slot}
+
 Template.xcalendarInner.helpers
+  #isEmpty: (x) -> x.doc is undefined
+  existsAppointment: (m)->
+    d = m.toDate()
+    xevent.findOne(date:d)
+  isWeekView: -> isWeekView.get()
   top: ->
     calendar: xcalendar.findOne(xcalendarId.get()).name
     date: xday.get()
@@ -61,40 +90,9 @@ Template.xcalendarInner.helpers
     minute = parseInt(slot[1])
     ret = []
     for i in [1..5]
-      m = xday.get().clone().local().day(i).hour(hour).minute(minute).startOf('minute')#.format('YYYY-MM-DD HH:mm')
+      m = xday.get().clone().local().day(i).hour(hour).minute(minute).startOf('minute')
       ret.push m
     return ret
-
-  xevent: (calendarId) ->
-    ret = xevent.find().fetch()
-    for event in ret
-      m = moment(event.date)
-      time = m.format('HH:mm')
-      row = 0
-      for slot, i in slots(slotIni, slotEnd, duration) # slots('09:00','12:00',30)
-        if slot == time
-          row = i
-          break
-      col = m.day()
-
-      parent = $('#' + calendarId + ' tr:eq(' + row + ') td:eq(' + col + ')')#[0]
-
-      position = parent.position()
-      if position
-        left = position.left
-        top = position.top
-      else
-        left = 0
-        top = 0
-      event.style = 'position: absolute; left: ' + left + 'px; top: ' + top + 'px;'
-    return ret
-
-Template.xcalendarInner.rendered = ->
-  evento = xevent.findOne()
-  if evento
-    _id = evento._id
-    text = evento.text
-    xevent.update(_id, {$set: {text: text + '.'}})
-    xevent.update(_id, {$set: {text: text }})
-
-
+  xevent: (m) ->
+    d = m.toDate()
+    xevent.findOne(date:d)

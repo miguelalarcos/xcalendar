@@ -9,6 +9,9 @@ schema = new SimpleSchema
 
 patient.attachSchema(schema)
 
+patient.helpers
+  fullName: -> this.name + ' ' + this.surname
+
 xCalendar.attachEventSchema
   patientId:
     type: String

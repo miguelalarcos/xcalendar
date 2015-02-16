@@ -7,41 +7,75 @@
 </template>
 
 <template name="xcalendarInner">
+    {{#if isWeekView}}
+        {{#with top}}
+            {{> xCalendarTop}}
+        {{/with}}
+        <table>
+            {{#each head}}
+                <th>{{> xCalendarHead}}</th>
+            {{/each}}
+            {{#each slot}}
+                <tr>
+                    <td>{{> xCalendarLeft}}</td>
+                    {{#each day this}}
+                        <td date="{{this}}" class="day-slot">
+                            {{#if existsAppointment this}}
+                                {{#with xevent this}}
+                                    {{> xEventTemplate}}
+                                {{/with}}
+                            {{else}}
+                                {{> xSlotTemplate}}
+                            {{/if}}
+                        </td>
+                    {{/each}}
+                </tr>
+            {{/each}}
+        </table>
+    {{else}}
+        {{> xCalendarInnerDay}}
+    {{/if}}
+</template>
+
+<template name="xCalendarInnerDay">
     {{#with top}}
-        {{> xCalendarTop}}
+        {{> xDayCalendarTop}}
     {{/with}}
     <table>
-        {{#each head}}
-            <th>{{> xCalendarHead}}</th>
-        {{/each}}
         {{#each slot}}
-            <tr>
-                <td>{{> xCalendarLeft}}</td>
-                {{#each day this}}
-                    <td date="{{this}}" class="day-slot">
-                        {{> xSlotTemplate}}
-                    </td>
-                {{/each}}
-            </tr>
+            {{#if existsAppointment this}}
+                {{#with xevent this}}
+                    {{> xDayCalendarRowTemplate}}
+                {{/with}}
+            {{else}}
+                {{> xDayCalendarRowEmptyTemplate}}
+            {{/if}}
         {{/each}}
     </table>
-    {{#each xevent this.calendarid}}
-        <div class="xevent" _id="{{this._id}}" style="{{this.style}}">
-            {{> xEventTemplate}}
-        </div>
-    {{/each}}
+</template>
+
+<template name="xCalendarButtonMinusDay">
+    <button class="ui button"><i class="minus icon"></i></button>
+</template>
+
+<template name="xCalendarButtonPlusDay">
+    <button class="ui button"><i class="plus icon"></i></button>
+</template>
+
+<template name="xCalendarButtonChangeView">
+    <button class="ui button">Change view</button>
 </template>
 
 <template name="xCalendarButtonMinus">
-    <button class="ui button" id="minusWeek"><i class="minus icon"></i></button>
+    <button class="ui button"><i class="minus icon"></i></button>
 </template>
 
 <template name="xCalendarButtonPlus">
-    <button class="ui button" id="plusWeek"><i class="plus icon"></i></button>
+    <button class="ui button"><i class="plus icon"></i></button>
 </template>
 
 <template name="xCalendarButtonToday">
-    <button class="ui button" id="xCalendarToday">Today</button>
+    <button class="ui button">Today</button>
 </template>
 
 
