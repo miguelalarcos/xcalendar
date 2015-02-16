@@ -9,8 +9,8 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('1.0.3.1');
   api.use('coffeescript', ['client', 'server']);
-  api.use('aldeed:collection2', ['server', 'client']);
-  api.use('momentjs:moment',['client','server'])
+  api.use('aldeed:collection2@2.3.2', ['server', 'client']);
+  api.use('momentjs:moment@2.8.4',['client','server'])
   api.use('templating', 'client');
   api.use('tracker', 'client');
   api.use('reactive-var', 'client');

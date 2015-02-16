@@ -90,3 +90,26 @@ You can use several templates already implemented:
     <button class="ui button" id="xCalendarToday">Today</button>
 </template>
 ```
+
+You extend the event model with your additional fields thanks to ```xCalendar.attachEventSchema```. For example:
+
+```coffee
+xCalendar.attachEventSchema
+  patientId:
+    type: String
+```
+
+And this is to set the event helpers (you have to add the ```dburles:collection-helpers``` package):
+```
+xCalendar.setEventHelpers
+  patient: ->
+    patient.findOne(this.patientId)
+```
+
+Last, in server side you set the objects to retrieve with each event (you have to add the ```reywood:publish-composite``` package):
+
+```coffee
+xCalendar.publishWeekEvents [
+  find: (event) -> patient.find event.patientId
+  ]
+```
