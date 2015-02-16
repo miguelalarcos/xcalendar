@@ -9,6 +9,14 @@
     height: 50px;
 }
 
+.patient-event.done {
+    background-color: lightgrey;
+}
+
+.patient-event.failed {
+    background-color: rosybrown;
+}
+
 .empty-slot {
     color: lightgrey;
     font-style: italic;
@@ -34,3 +42,19 @@
     font-size: 200%;
 }
 
+tr.empty-day-row{
+    background-color: lightyellow;
+}
+
+tr.event-day-row{
+    background-color: lightgreen;
+    cursor: pointer;
+}
+
+tr.event-day-row.done{
+    background-color: lightgrey;
+}
+
+tr.event-day-row.failed{
+    background-color: rosybrown;
+}

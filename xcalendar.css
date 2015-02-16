@@ -6,6 +6,11 @@
 
 
 
-.xcalendar table {
+#weekViewTable {
     border-collapse: collapse;
+}
+
+#dayViewTable {
+    border-collapse: separate;
+    border-spacing: 5px;
 }

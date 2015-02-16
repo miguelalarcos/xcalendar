@@ -10,6 +10,18 @@ Template.xCalendarLeft.helpers
     else
       true
 
+Template.xDayCalendarRowTemplate.events
+  'click td': (e,t)->
+    _id = $(e.target).parent().attr('_id')
+    status = t.data.doc.status
+    if status is undefined or status == 'pending'
+      status = 'done'
+    else if status == 'done'
+      status = 'failed'
+    else if status == 'failed'
+      status = 'pending'
+    xCalendar.update _id, {status: status}
+
 Template.xCalendarTop.helpers
   displayCancelReprogramming: -> if reprogrammingEvent.get() then true else false
 

@@ -11,7 +11,7 @@
         {{#with top}}
             {{> xCalendarTop}}
         {{/with}}
-        <table>
+        <table id="weekViewTable">
             {{#each head}}
                 <th>{{> xCalendarHead}}</th>
             {{/each}}
@@ -41,17 +41,19 @@
     {{#with top}}
         {{> xDayCalendarTop}}
     {{/with}}
-    <table>
-        {{#each slot}}
-            {{#if existsAppointment this}}
-                {{#with xevent this}}
-                    {{> xDayCalendarRowTemplate}}
-                {{/with}}
-            {{else}}
-                {{> xDayCalendarRowEmptyTemplate}}
-            {{/if}}
-        {{/each}}
-    </table>
+    <div class="ui table">
+        <table id="dayViewTable">
+            {{#each slot}}
+                {{#if existsAppointment this}}
+                    {{#with xevent this}}
+                        {{> xDayCalendarRowTemplate}}
+                    {{/with}}
+                {{else}}
+                    {{> xDayCalendarRowEmptyTemplate}}
+                {{/if}}
+            {{/each}}
+        </table>
+    </div>
 </template>
 
 <template name="xCalendarButtonMinusDay">

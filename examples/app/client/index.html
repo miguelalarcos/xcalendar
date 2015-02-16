@@ -22,17 +22,18 @@
 </template>
 
 <template name="xDayCalendarRowEmptyTemplate">
-    <tr><td>{{this}}</td></tr>
+    <tr class="empty-day-row"><td>{{this}}</td></tr>
 </template>
 
 <template name="xDayCalendarRowTemplate">
-   <tr><td>{{this.slot}}</td><td>{{this.doc.patient.nhc}}</td><td>{{this.doc.patient.fullName}}</td><td>{{this.doc.text}}</td></tr>
+   <tr _id="{{this.doc._id}}" class="event-day-row {{this.doc.status}}"><td>{{this.slot}}</td><td>{{this.doc.patient.nhc}}</td><td>{{this.doc.patient.fullName}}</td><td>{{this.doc.text}}</td></tr>
 </template>
 
 <template name="xDayCalendarTop">
     {{>xCalendarButtonMinusDay}}
     {{>xCalendarButtonPlusDay}}
     {{>xCalendarButtonToday}}
+    <b>{{formatDate this.date}}</b>
     {{>xCalendarButtonChangeView}}
 </template>
 
@@ -65,14 +66,14 @@
 </template>
 
 <template name="xEventTemplate">
-    <div class="patient-event">
+    <div class="patient-event {{this.status}}">
         <b><a href="" class="delete-event" style="float: right">x</a></b>
         <span style="float: right">&nbsp;&nbsp;</span>
         <b><a href="" class="reprogramming-event" style="float: right">R</a></b>
         <div class="content-patient-event"><div><b>{{this.patient.nhc}}</b></div>{{this.patient.name}} {{this.patient.surname}}, {{sub this.text 25}}</div>
     </div>
     <div class="ui popup">
-        <div class="header">{{this.patient.nhc}}, {{this.patient.name}}, {{this.date}}</div>
+        <div class="header">{{this.patient.nhc}}, {{this.patient.name}}, {{formatDateTime this.date}}</div>
         <div class="content-popup">{{this.text}}</div>
     </div>
 </template>
@@ -117,7 +118,7 @@
             </div>
             <div class="content">
                 <div class="description">
-                    <div class="ui header">You are going to modify the appointment for {{this.patient.nhc}} and date {{formatDate this.date}}.</div>
+                    <div class="ui header">You are going to modify the appointment for {{this.patient.nhc}} and date {{formatDateTime this.date}}.</div>
                     Observaciones: <textarea rows="4" cols="50" id="inputUpdateAskModal">{{this.text}}</textarea>
                     <p>Is it okay?</p>
                 </div>
@@ -144,7 +145,7 @@
             </div>
             <div class="content">
                 <div class="description">
-                    <div class="ui header">You are going to delete the appointment for {{this.patient.nhc}} adn date {{formatDate this.date}}.</div>
+                    <div class="ui header">You are going to delete the appointment for {{this.patient.nhc}} adn date {{formatDateTime this.date}}.</div>
                     <p>Is it okay?</p>
                 </div>
             </div>

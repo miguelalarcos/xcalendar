@@ -15,6 +15,9 @@ patient.helpers
 xCalendar.attachEventSchema
   patientId:
     type: String
+  status:
+    optional: true
+    type: String
 
 xCalendar.setEventHelpers
   patient: ->

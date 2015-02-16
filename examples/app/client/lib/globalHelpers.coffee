@@ -1,5 +1,10 @@
 UI.registerHelper 'formatDate', (date) ->
-  mdate = moment(date)
+  mdate = moment(date).local()
+  if mdate
+    mdate.format('DD-MM-YYYY')
+
+UI.registerHelper 'formatDateTime', (date) ->
+  mdate = moment(date).local()
   if mdate
     mdate.format('DD-MM-YYYY HH:mm')
 
