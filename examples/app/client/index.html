@@ -21,6 +21,10 @@
     </div>
 </template>
 
+<template name="xCalendarDayHead">
+    <th></th><th>NHC</th><th>name</th><th>text</th>
+</template>
+
 <template name="xCalendarDayEmptyRow">
     <tr class="empty-day-row"><td>{{this}}</td></tr>
 </template>
@@ -70,6 +74,7 @@
         <b><a href="" class="delete-event" style="float: right">x</a></b>
         <span style="float: right">&nbsp;&nbsp;</span>
         <b><a href="" class="reprogramming-event" style="float: right">R</a></b>
+
         <div class="content-patient-event"><div><b>{{this.patient.nhc}}</b></div>{{this.patient.name}} {{this.patient.surname}}, {{sub this.text 25}}</div>
     </div>
     <div class="ui popup">

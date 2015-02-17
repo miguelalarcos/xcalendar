@@ -8,7 +8,7 @@ Explanation
 
 You have a demo [here](http://xcalendar.meteor.com). I would like to create a native Meteor and full calendar; help is welcome :)
 
-You have to implement the next templates ```xCalendarWeekTop```, ```xCalendarWeekHead```, ```xCalendarWeekLeft```, ```xCalendarEvent``` , ```xCalendarSlot```, ```xCalendarDayTop```, ```xCalendarDayRow``` and ```xCalendarDayEmptyRow```.
+You have to implement the next templates ```xCalendarWeekTop```, ```xCalendarWeekHead```, ```xCalendarWeekLeft```, ```xCalendarEvent``` , ```xCalendarSlot```, ```xCalendarDayTop```, ```xCalendarDayHead```, ```xCalendarDayRow``` and ```xCalendarDayEmptyRow```.
 
 For example:
 
@@ -47,6 +47,7 @@ For example:
 * ```xCalendarEvent``` is passed the event object of the appointment.
 * ```xCalendarSlot``` is passed a moment object indicating the date of the slot
 * ```xCalendarDayTop``` is passed *date* and *calendar* name.
+* ```xCalendarDayHead```
 * ```xCalendarDayRow``` is passed a object like {slot:slot, doc:event}
 * ```xCalendarDayEmptyRow``` is passed the slot text.
 

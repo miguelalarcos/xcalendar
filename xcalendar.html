@@ -43,6 +43,7 @@
     {{/with}}
     <div class="ui table">
         <table id="dayViewTable">
+            {{> xCalendarDayHead }}
             {{#each slot}}
                 {{#if existsAppointment this}}
                     {{#with xevent this}}

@@ -1,6 +1,6 @@
 Package.describe({
   name: 'miguelalarcos:xcalendar',
-  version: '0.2.1',
+  version: '0.3.0',
   summary: 'A simple and native calendar for Meteor.',
   git: 'https://github.com/miguelalarcos/xcalendar.git',
   documentation: 'README.md'
@@ -20,6 +20,7 @@ Package.onUse(function(api) {
   api.addFiles('xcalendar.coffee', 'client');
   api.addFiles('xcalendar.css', 'client');
   api.addFiles('xcalendar_publications.coffee', 'server');
+  api.addFiles('xcalendar_deny.coffee', 'server');
 
   api.export('xCalendar', ['client', 'server']);
 });

@@ -17,6 +17,10 @@
     background-color: rosybrown;
 }
 
+.patient-event.reserved {
+    background-color: aquamarine;
+}
+
 .empty-slot {
     color: lightgrey;
     font-style: italic;

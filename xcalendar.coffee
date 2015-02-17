@@ -11,6 +11,7 @@ xCalendar.remove = (_id)-> xevent.remove _id
 slotIni = null
 slotEnd = null
 duration = null
+days = null
 
 xCalendar.waitForCalendarEvents = -> Meteor.subscribe 'weekEvents', xcalendarId.get(), xday.get().toDate()
 xCalendar.setCalendar = (_id) ->
@@ -18,6 +19,7 @@ xCalendar.setCalendar = (_id) ->
   slotIni = calendar.slotIni
   slotEnd = calendar.slotEnd
   duration = calendar.duration
+  days = calendar.days
   xcalendarId.set _id
 
 Template.xCalendarButtonPlus.events
@@ -77,7 +79,7 @@ Template.xcalendarInner.helpers
     date: xday.get()
   head: ->
     ret = ['']
-    for i in [1..5]
+    for i in days # [1..5]
       m = xday.get().clone().day(i).startOf('day')
       ret.push m
     ret
@@ -87,7 +89,7 @@ Template.xcalendarInner.helpers
     hour = parseInt(slot[0])
     minute = parseInt(slot[1])
     ret = []
-    for i in [1..5]
+    for i in days # [1..5]
       m = xday.get().clone().local().day(i).hour(hour).minute(minute).startOf('minute')
       ret.push m
     return ret

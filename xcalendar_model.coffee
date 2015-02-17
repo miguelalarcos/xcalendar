@@ -21,10 +21,11 @@ xcalendarSchema = new SimpleSchema
     type: String
   slotIni:
     type: String
-    #regEx: /^[0-9]{5}$/
   slotEnd:
     type: String
   duration:
     type: Number
+  days:
+    type: [Number]
 
 xcalendar.attachSchema(xcalendarSchema)

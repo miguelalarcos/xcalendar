@@ -36,18 +36,20 @@ Template.xCalendarSlot.events
       xCalendar.update event._id, {date: date}
       reprogrammingEvent.set null
     else
+      event = {date:date, patientId: patientId.get(), status: 'reserved'}
+      _id = xCalendar.insert event
       onApprove = ->
         text = $('#inputDateAskModal').val()
         $('#inputDateAskModal').val('')
-        event = {date: date}
-        event.patientId = patientId.get()
-        event.text = text
-        xCalendar.insert event
-      $('#dateAskModal').modal(onApprove : onApprove).modal('show')
+        xCalendar.update _id, {text: text, status: 'pending'}
+      onDeny = ->
+        xCalendar.remove _id
+        $('#inputDateAskModal').val('')
+      $('#dateAskModal').modal(onApprove : onApprove, onDeny: onDeny).modal('show')
 
 Template.xCalendarEvent.helpers
   sub: (txt, len)->
-    if txt.length > len
+    if txt and txt.length > len
       return txt[0..len] + '...'
     else
       return txt
