@@ -1,3 +1,7 @@
+#xCalendarDayViewTable {
+    width: 500px;
+}
+
 .delete-event, .reprogramming-event {
     cursor: pointer;
 }

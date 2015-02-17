@@ -4,13 +4,11 @@
     height: 50px;
 }
 
-
-
-#weekViewTable {
+#xCalendarWeekViewTable {
     border-collapse: collapse;
 }
 
-#dayViewTable {
+#xCalendarDayViewTable {
     border-collapse: separate;
     border-spacing: 5px;
 }

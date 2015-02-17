@@ -1,7 +1,9 @@
 <template name="xcalendar">
-    <div id="{{this.calendarid}}" class="xwidget xcalendar">
+    <div class="xwidget xcalendar">
         {{#if calendarSelected}}
-            {{>xcalendarInner}}
+            {{#with xcalendarId}}
+                {{>xcalendarInner}}
+            {{/with}}
         {{/if}}
     </div>
 </template>
@@ -11,7 +13,7 @@
         {{#with top}}
             {{> xCalendarWeekTop}}
         {{/with}}
-        <table id="weekViewTable">
+        <table id="xCalendarWeekViewTable">
             {{#each head}}
                 <th>{{> xCalendarWeekHead}}</th>
             {{/each}}
@@ -42,7 +44,7 @@
         {{> xCalendarDayTop}}
     {{/with}}
     <div class="ui table">
-        <table id="dayViewTable">
+        <table id="xCalendarDayViewTable">
             {{> xCalendarDayHead }}
             {{#each slot}}
                 {{#if existsAppointment this}}
@@ -66,7 +68,7 @@
 </template>
 
 <template name="xCalendarButtonChangeView">
-    <button class="ui button">Change view</button>
+    <button class="ui button">{{caption}}</button>
 </template>
 
 <template name="xCalendarButtonMinus">

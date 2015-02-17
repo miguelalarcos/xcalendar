@@ -122,10 +122,15 @@ To understand this, here is the implementation of ```xCalendar.publishWeekEvents
 xCalendar.publishWeekEvents = (children) ->
   Meteor.publishComposite 'weekEvents', (calendarId, date) ->
     m = moment(date)
-    d1 = m.clone().day(1).startOf('day').toDate()
-    d2 = m.clone().day(6).startOf('day').toDate()
+    d1 = m.clone().day(0).startOf('day').toDate()
+    d2 = m.clone().day(7).startOf('day').toDate()
     return {
     find: -> xevent.find({calendarId: calendarId, date: {$gte: d1, $lt: d2}})
     children: children
     }
 ```
+
+css: you can style the tables of the calendar. Use ```#xCalendarDayViewTable``` and ```#xCalendarWeekViewTable```.
+TODO:
+* i18n
+* at the moment, xCalendar is singleton. Think if it would be useful to have different calendar views at the same time in an app.

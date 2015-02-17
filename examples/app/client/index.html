@@ -8,13 +8,13 @@
                 <a class="patient" href="" _id="{{this._id}}">{{this._id}}</a> {{this.name}} {{this.surname}}
             </div>
         {{/each}}
-        Click on the next calendar id:
+        Click on a calendar id:
         {{#each calendars}}
             <div>
                 <a class="calendar" href="" _id="{{this._id}}">{{this._id}}</a> {{this.name}}
             </div>
         {{/each}}
-        {{> xcalendar calendarid='myCalendar'}}
+        {{> xcalendar}}
         {{> dateAskModal }}
         {{> dateUpdateAskModal}}
         {{> dateRemoveAskModal}}

@@ -8,18 +8,18 @@ xCalendar.insert = (data) ->
 xCalendar.update = (_id, data) -> xevent.update _id, {$set: data}
 xCalendar.remove = (_id)-> xevent.remove _id
 
-slotIni = null
-slotEnd = null
-duration = null
-days = null
+slotIni = new ReactiveVar(null)
+slotEnd = new ReactiveVar(null)
+duration = new ReactiveVar(null)
+days = new ReactiveVar(null)
 
 xCalendar.waitForCalendarEvents = -> Meteor.subscribe 'weekEvents', xcalendarId.get(), xday.get().toDate()
 xCalendar.setCalendar = (_id) ->
   calendar = xcalendar.findOne(_id)
-  slotIni = calendar.slotIni
-  slotEnd = calendar.slotEnd
-  duration = calendar.duration
-  days = calendar.days
+  slotIni.set calendar.slotIni
+  slotEnd.set calendar.slotEnd
+  duration.set calendar.duration
+  days.set calendar.days
   xcalendarId.set _id
 
 Template.xCalendarButtonPlus.events
@@ -51,16 +51,19 @@ slots = (ini, end, interval)->
     ini.add(interval, 'minutes')
   return ret
 
+Template.xCalendarButtonChangeView.helpers
+  caption: -> if isWeekView.get() then 'Day view' else 'Week view'
 
 Template.xcalendar.helpers
   calendarSelected: -> if xcalendarId.get() then true else false
+  xcalendarId: -> xcalendarId.get()
 
 Template.xCalendarInnerDay.helpers
   existsAppointment: (slot)->
     day = xday.get().clone().local().format('YYYY-MM-DD')
     d = moment(day + ' ' + slot, 'YYYY-MM-DD HH:mm').toDate()
     xevent.findOne(date:d)
-  slot: -> slots(slotIni, slotEnd, duration)
+  slot: -> slots(slotIni.get(), slotEnd.get(), duration.get())
   top: ->
     calendar: xcalendar.findOne(xcalendarId.get()).name
     date: xday.get()
@@ -79,17 +82,17 @@ Template.xcalendarInner.helpers
     date: xday.get()
   head: ->
     ret = ['']
-    for i in days # [1..5]
+    for i in days.get()
       m = xday.get().clone().day(i).startOf('day')
       ret.push m
     ret
-  slot: -> slots(slotIni, slotEnd, duration)
+  slot: -> slots(slotIni.get(), slotEnd.get(), duration.get())
   day: (slot)->
     slot = slot.split(':')
     hour = parseInt(slot[0])
     minute = parseInt(slot[1])
     ret = []
-    for i in days # [1..5]
+    for i in days.get()
       m = xday.get().clone().local().day(i).hour(hour).minute(minute).startOf('minute')
       ret.push m
     return ret
