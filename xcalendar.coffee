@@ -54,9 +54,8 @@ Template.xcalendar.helpers
   calendarSelected: -> if xcalendarId.get() then true else false
 
 Template.xCalendarInnerDay.helpers
-  #isEmpty: (x) -> x.doc is undefined
   existsAppointment: (slot)->
-    day = xday.get().format('YYYY-MM-DD')
+    day = xday.get().clone().local().format('YYYY-MM-DD')
     d = moment(day + ' ' + slot, 'YYYY-MM-DD HH:mm').toDate()
     xevent.findOne(date:d)
   slot: -> slots(slotIni, slotEnd, duration)
@@ -64,12 +63,11 @@ Template.xCalendarInnerDay.helpers
     calendar: xcalendar.findOne(xcalendarId.get()).name
     date: xday.get()
   xevent: (slot) ->
-    day = xday.get().format('YYYY-MM-DD')
+    day = xday.get().clone().local().format('YYYY-MM-DD')
     d = moment(day + ' ' + slot, 'YYYY-MM-DD HH:mm').toDate()
     {doc: xevent.findOne(date:d), slot: slot}
 
 Template.xcalendarInner.helpers
-  #isEmpty: (x) -> x.doc is undefined
   existsAppointment: (m)->
     d = m.toDate()
     xevent.findOne(date:d)

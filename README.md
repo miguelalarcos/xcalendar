@@ -78,6 +78,18 @@ You can use several templates already implemented:
 </template>
 ```
 
+And xCalendar provides the methods to insert, update and remove events:
+
+```coffee
+Template.xCalendarEvent.events
+  'click .patient-event': (e, t)->
+      _id = t.data._id
+      onApprove = ->
+        text = $('#inputUpdateAskModal').val()
+        xCalendar.update _id, {text: text} # dont't use $set, it's done in the xCalendar side
+      $('#dateUpdateAskModal').modal(onApprove : onApprove).modal('show')
+```
+
 You can extend the event model with your additional fields thanks to ```xCalendar.attachEventSchema``` method. For example:
 
 ```coffee
