@@ -1,6 +1,6 @@
 Package.describe({
   name: 'miguelalarcos:xcalendar',
-  version: '0.3.1',
+  version: '0.3.2',
   summary: 'A simple and native calendar for Meteor.',
   git: 'https://github.com/miguelalarcos/xcalendar.git',
   documentation: 'README.md'

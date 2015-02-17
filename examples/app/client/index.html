@@ -18,6 +18,25 @@
         {{> dateAskModal }}
         {{> dateUpdateAskModal}}
         {{> dateRemoveAskModal}}
+        <button class="ui button show-modal">show modal</button>
+        {{> modal}}
+    </div>
+</template>
+
+<template name="modal">
+    <div id="modalId" class="xmodal {{modalShow}}">
+        <div class="center">
+            {{> UI.dynamic template=template}}
+        </div>
+    </div>
+</template>
+
+<template name="modal1">
+    <div>
+        <div class="ui input">
+            <input type="text">
+            <button class="ui button close">close</button>
+        </div>
     </div>
 </template>
 
@@ -30,7 +49,18 @@
 </template>
 
 <template name="xCalendarDayRow">
-   <tr _id="{{this.doc._id}}" class="event-day-row {{this.doc.status}}"><td>{{this.slot}}</td><td>{{this.doc.patient.nhc}}</td><td>{{this.doc.patient.fullName}}</td><td>{{this.doc.text}}</td></tr>
+   <tr _id="{{this.doc._id}}" class="event-day-row {{this.doc.status}}">
+       <td>{{this.slot}}</td>
+       <td>{{this.doc.patient.nhc}}</td>
+       <td>{{this.doc.patient.fullName}}</td>
+       <td class="patient-text">
+           {{sub this.doc.text 25}}
+           <div class="xpopup">
+               <b>{{this.doc.patient.nhc}}</b>, {{this.doc.patient.fullName}}
+               <p>{{this.doc.text}}</p>
+           </div>
+       </td>
+   </tr>
 </template>
 
 <template name="xCalendarDayTop">
@@ -74,13 +104,16 @@
         <b><a href="" class="delete-event" style="float: right">x</a></b>
         <span style="float: right">&nbsp;&nbsp;</span>
         <b><a href="" class="reprogramming-event" style="float: right">R</a></b>
-
         <div class="content-patient-event"><div><b>{{this.patient.nhc}}</b></div>{{this.patient.name}} {{this.patient.surname}}, {{sub this.text 25}}</div>
+        <div class="xpopup">
+            <b>{{this.patient.nhc}}</b>, {{this.patient.name}}, {{formatDateTime this.date}}
+            <p>{{this.text}}</p>
+        </div>
     </div>
-    <div class="ui popup">
+    <!--<div class="ui popup">
         <div class="header">{{this.patient.nhc}}, {{this.patient.name}}, {{formatDateTime this.date}}</div>
         <div class="content-popup">{{this.text}}</div>
-    </div>
+    </div>-->
 </template>
 
 <template name="xCalendarSlot">
@@ -90,15 +123,14 @@
 <template name="dateAskModal">
     {{#with patient}}
     <div id='dateAskModal' class="ui modal">
-        <i class="close icon"></i>
         <div class="header">
             Alert!
         </div>
         <div class="content">
             <div class="description">
                 <div class="ui header">You are going to give an appointment to {{this.nhc}}.</div>
-                Observaciones: <textarea rows="4" cols="50" id="inputDateAskModal"></textarea>
-                <p>Is it okay?</p>
+                Text: <textarea rows="4" cols="50" id="inputDateAskModal"></textarea>
+                <h3>Is it okay?</h3>
             </div>
         </div>
         <div class="actions">
@@ -117,15 +149,14 @@
 <template name="dateUpdateAskModal">
     {{#with event}}
         <div id='dateUpdateAskModal' class="ui modal">
-            <i class="close icon"></i>
             <div class="header">
                 Alert!
             </div>
             <div class="content">
                 <div class="description">
                     <div class="ui header">You are going to modify the appointment for {{this.patient.nhc}} and date {{formatDateTime this.date}}.</div>
-                    Observaciones: <textarea rows="4" cols="50" id="inputUpdateAskModal">{{this.text}}</textarea>
-                    <p>Is it okay?</p>
+                    Text: <textarea rows="4" cols="50" id="inputUpdateAskModal">{{this.text}}</textarea>
+                    <h3>Is it okay?</h3>
                 </div>
             </div>
             <div class="actions">
@@ -144,14 +175,13 @@
 <template name="dateRemoveAskModal">
     {{#with event}}
         <div id='dateRemoveAskModal' class="ui modal">
-            <i class="close icon"></i>
             <div class="header">
                 Alert!
             </div>
             <div class="content">
                 <div class="description">
                     <div class="ui header">You are going to delete the appointment for {{this.patient.nhc}} and date {{formatDateTime this.date}}.</div>
-                    <p>Is it okay?</p>
+                    <h3>Is it okay?</h3>
                 </div>
             </div>
             <div class="actions">

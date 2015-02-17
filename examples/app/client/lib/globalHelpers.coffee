@@ -14,4 +14,10 @@ UI.registerHelper 'formatDateMonthYear', (mdate) ->
 
 UI.registerHelper 'formatDateDay', (mdate) ->
   if mdate
-    mdate.format('DD')
+    mdate.format('ddd-DD')
+
+UI.registerHelper 'sub', (txt, len)->
+    if txt and txt.length > len
+      return txt[0..len] + '...'
+    else
+      return txt

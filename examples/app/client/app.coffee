@@ -3,6 +3,34 @@ updateEvent = new ReactiveVar(null)
 removeEvent = new ReactiveVar(null)
 reprogrammingEvent = new ReactiveVar(null)
 
+modal = {}
+
+modal.modalShow = new ReactiveVar('')
+modal.template = new ReactiveVar(null)
+#modal.elementModalRendered = null
+
+modal.close = ->
+  #Blaze.remove(modal.elementModalRendered)
+  modal.modalShow.set ''
+
+modal.render = (template, data, onOkCallback) ->
+  modal.onOkCallback = onOkCallback
+  modal.modalShow.set 'show'
+  modal.template.set template
+  #el = $('#modalId .center')[0]
+  #modal.elementModalRendered = Blaze.renderWithData(template, data, el)
+
+Template.modal.helpers
+  modalShow: -> modal.modalShow.get()
+  template: -> modal.template.get()
+
+Template.modal1.events
+  'click button.close': (e,t)->
+    val = $(t.find('input')).val()
+    modal.onOkCallback(val)
+    modal.close()
+
+
 Template.xCalendarWeekLeft.helpers
   display: (hour)->
     if /\d\d:30/.test(hour)
@@ -47,13 +75,6 @@ Template.xCalendarSlot.events
         $('#inputDateAskModal').val('')
       $('#dateAskModal').modal(onApprove : onApprove, onDeny: onDeny).modal('show')
 
-Template.xCalendarEvent.helpers
-  sub: (txt, len)->
-    if txt and txt.length > len
-      return txt[0..len] + '...'
-    else
-      return txt
-
 Template.xCalendarEvent.events
   'click .reprogramming-event':(e,t)->
     reprogrammingEvent.set t.data
@@ -64,19 +85,20 @@ Template.xCalendarEvent.events
       xCalendar.remove _id
     $('#dateRemoveAskModal').modal(onApprove : onApprove).modal('show')
   'click .patient-event': (e, t)->
-    if $(e.target).hasClass('patient-event') or $(e.target).hasClass('content-patient-event')
-      updateEvent.set t.data
-      _id = t.data._id
-      onApprove = ->
-        text = $('#inputUpdateAskModal').val()
-        xCalendar.update _id, {text: text}
-      $('#dateUpdateAskModal').modal(onApprove : onApprove).modal('show')
+    if $(e.target).hasClass('delete-event') or $(e.target).hasClass('reprogramming-event')
+      return
+    updateEvent.set t.data
+    _id = t.data._id
+    onApprove = ->
+      text = $('#inputUpdateAskModal').val()
+      xCalendar.update _id, {text: text}
+    $('#dateUpdateAskModal').modal(onApprove : onApprove).modal('show')
 
 Template.dateAskModal.helpers
   patient: -> patient.findOne(patientId.get())
 
 Template.dateUpdateAskModal.helpers
-  event: -> updateEvent.get() or {} # why???
+  event: -> updateEvent.get() or {} # why??? (works)
 
 Template.dateRemoveAskModal.helpers
   event: -> removeEvent.get() or {}
@@ -92,16 +114,19 @@ Template.home.helpers
   calendars: -> xcalendar.find({})
 
 Template.home.events
+  'click button.show-modal':(e,t)->
+    f = (x)-> console.log x
+    modal.render('modal1', {}, f)
   'click .patient': (e,t)->
     _id = $(e.target).attr('_id')
     patientId.set _id
     console.log 'patient id set'
   'click .calendar': (e,t)->
     _id = $(e.target).attr('_id')
-    #calendarId.set _id
+    reprogrammingEvent.set null
     xCalendar.setCalendar _id
     console.log 'calendar id set'
 
-Template.xCalendarEvent.rendered = ->
-  for el in this.findAll('.patient-event')
-    $(el).popup()
+#Template.xCalendarEvent.rendered = ->
+#  for el in this.findAll('.patient-event')
+#    $(el).popup()
