@@ -39,19 +39,20 @@ Template.xCalendarSlot.events
       event = xevent.findOne(_id)
       onOk = (text) ->xCalendar.update(_id, {text: text, status: 'pending'})
       onCancel = -> xCalendar.remove _id
-      modal.render('modalInsertEvent', event, onOk, onCancel)
+      $('#modalInsertEventId textarea').val('')
+      modal.show('modalInsertEvent', event, onOk, onCancel)
 
 Template.xCalendarEvent.events
   'click .reprogramming-event':(e,t)->
     reprogrammingEvent.set t.data
   'click .delete-event': (e, t)->
     _id = t.data._id
-    modal.render('modalRemoveEvent', t.data, -> xCalendar.remove _id)
+    modal.show('modalRemoveEvent', t.data, -> xCalendar.remove _id)
   'click .patient-event': (e, t)->
     if $(e.target).hasClass('delete-event') or $(e.target).hasClass('reprogramming-event')
       return
     _id = t.data._id
-    modal.render('modalUpdateEvent', t.data, (text) -> xCalendar.update _id, {text: text})
+    modal.show('modalUpdateEvent', t.data, (text) -> xCalendar.update _id, {text: text})
 
 Template.modalInsertEvent.events
   'click .ok': (e,t)->

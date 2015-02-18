@@ -33,12 +33,13 @@ For example:
         <span style="float: right">&nbsp;&nbsp;</span>
         <b><a href="" class="reprogramming-event" style="float: right">R</a></b>
         <div class="content-patient-event"><div><b>{{this.patient.nhc}}</b></div>{{this.patient.name}} {{this.patient.surname}}, {{sub this.text 25}}</div>
-    </div>
-    <div class="ui popup">
-        <div class="header">{{this.patient.nhc}}, {{this.patient.name}}, {{formatDateTime this.date}}</div>
-        <div class="content-popup">{{this.text}}</div>
+        <div class="xpopup">
+            <b>NHC: {{this.patient.nhc}}</b>, {{this.patient.fullName}}, {{formatDateTime this.date}}
+            <p>{{this.text}}</p>
+        </div>
     </div>
 </template>
+
 ```
 
 * ```xCalendarWeekTop``` is passed *date* and *calendar* name.

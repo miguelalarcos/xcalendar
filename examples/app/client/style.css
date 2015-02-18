@@ -11,6 +11,7 @@
     text-align: center;
     width: 200px;
     height: 50px;
+    cursor: pointer;
 }
 
 .patient-event.done {
@@ -68,7 +69,8 @@ tr.event-day-row.failed{
 }
 
 .xpopup {
-    display: none;
+    /*display: none;*/
+    visibility:hidden;
     position: absolute;
     z-index: 2;
     background-color: white;
@@ -76,10 +78,15 @@ tr.event-day-row.failed{
     word-wrap: break-word;
     border: 2px solid seagreen;
     text-align: left;
+    opacity: 0;
+    -webkit-transition: opacity 0.5s, visibility 0.5s;
+    transition: opacity 0.5s, visibility 0.5s;
 }
 
 .patient-event:hover .xpopup {
-    display: block;
+    opacity: 1;
+    visibility: visible;
+    /*display: block;*/
 }
 
 .patient-text:hover .xpopup {

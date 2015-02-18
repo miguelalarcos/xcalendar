@@ -20,11 +20,10 @@
 </template>
 
 <template name="modalInsertEvent">
-    <div style="border: 2px solid seagreen; width: 500px;">
+    <div id="modalInsertEventId" style="border: 2px solid seagreen; width: 500px;">
         <h3>You are going to give an appointment for {{this.patient.nhc}}</h3>
-        <div class="ui input">
-            text: <textarea type="text" rows="5" cols="50">{{this.text}}</textarea>
-        </div>
+        <p><b>Text:</b></p>
+        <textarea type="text" rows="5" cols="50">{{this.text}}</textarea>
         <div>
             <div class="ui black cancel button">
                 cancel
@@ -40,9 +39,8 @@
 <template name="modalUpdateEvent">
     <div style="border: 2px solid seagreen; width: 500px;">
         <h3>You are going to edit the appointment for {{this.patient.nhc}} and date {{formatDateTime this.date}}</h3>
-        <div class="ui input">
-            text: <textarea type="text" rows="5" cols="50">{{this.text}}</textarea>
-        </div>
+        <p><b>Text:</b></p>
+        <textarea type="text" rows="5" cols="50">{{this.text}}</textarea>
         <div>
             <div class="ui black cancel button">
                 cancel
@@ -136,14 +134,10 @@
         <b><a href="" class="reprogramming-event" style="float: right">R</a></b>
         <div class="content-patient-event"><div><b>{{this.patient.nhc}}</b></div>{{this.patient.name}} {{this.patient.surname}}, {{sub this.text 25}}</div>
         <div class="xpopup">
-            <b>{{this.patient.nhc}}</b>, {{this.patient.name}}, {{formatDateTime this.date}}
+            <b>NHC: {{this.patient.nhc}}</b>, {{this.patient.fullName}}, {{formatDateTime this.date}}
             <p>{{this.text}}</p>
         </div>
     </div>
-    <!--<div class="ui popup">
-        <div class="header">{{this.patient.nhc}}, {{this.patient.name}}, {{formatDateTime this.date}}</div>
-        <div class="content-popup">{{this.text}}</div>
-    </div>-->
 </template>
 
 <template name="xCalendarSlot">
