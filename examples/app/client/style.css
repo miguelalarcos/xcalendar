@@ -83,13 +83,14 @@ tr.event-day-row.failed{
     transition: opacity 0.5s, visibility 0.5s;
 }
 
-.patient-event:hover .xpopup {
+.patient-event:hover+.xpopup {
     opacity: 1;
     visibility: visible;
     /*display: block;*/
 }
 
-.patient-text:hover .xpopup {
-    display: block;
+.patient-text:hover+.xpopup {
+    opacity: 1;
+    visibility: visible;
 }
 

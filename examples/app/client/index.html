@@ -81,8 +81,10 @@
        <td>{{this.slot}}</td>
        <td>{{this.doc.patient.nhc}}</td>
        <td>{{this.doc.patient.fullName}}</td>
-       <td class="patient-text">
-           {{sub this.doc.text 25}}
+       <td>
+           <div class="patient-text">
+               {{sub this.doc.text 25}}
+           </div>
            <div class="xpopup">
                <b>{{this.doc.patient.nhc}}</b>, {{this.doc.patient.fullName}}
                <p>{{this.doc.text}}</p>
@@ -133,10 +135,10 @@
         <span style="float: right">&nbsp;&nbsp;</span>
         <b><a href="" class="reprogramming-event" style="float: right">R</a></b>
         <div class="content-patient-event"><div><b>{{this.patient.nhc}}</b></div>{{this.patient.name}} {{this.patient.surname}}, {{sub this.text 25}}</div>
-        <div class="xpopup">
-            <b>NHC: {{this.patient.nhc}}</b>, {{this.patient.fullName}}, {{formatDateTime this.date}}
-            <p>{{this.text}}</p>
-        </div>
+    </div>
+    <div class="xpopup">
+        <b>NHC: {{this.patient.nhc}}</b>, {{this.patient.fullName}}, {{formatDateTime this.date}}
+        <p>{{this.text}}</p>
     </div>
 </template>
 
