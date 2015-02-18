@@ -51,31 +51,23 @@ Template.xCalendarEvent.events
     if $(e.target).hasClass('delete-event') or $(e.target).hasClass('reprogramming-event')
       return
     _id = t.data._id
-    modal.render('modalUpdateEvent', t.data, (data) -> xCalendar.update _id, data)
+    modal.render('modalUpdateEvent', t.data, (text) -> xCalendar.update _id, {text: text})
 
 Template.modalInsertEvent.events
   'click .ok': (e,t)->
     val = $(t.find('textarea')).val()
     modal.onOkCallback(val)
-    modal.close()
   'click .cancel': (e,t)->
     modal.onCancelCallback()
-    modal.close()
 
 Template.modalUpdateEvent.events
   'click .ok': (e,t)->
     val = $(t.find('textarea')).val()
-    modal.onOkCallback(text: val)
-    modal.close()
-  'click .cancel': (e,t)->
-    modal.close()
+    modal.onOkCallback(val)
 
 Template.modalRemoveEvent.events
   'click .ok': (e,t)->
     modal.onOkCallback()
-    modal.close()
-  'click .cancel': (e,t)->
-    modal.close()
 
 class @HomeController extends RouteController
   waitOn: ->
