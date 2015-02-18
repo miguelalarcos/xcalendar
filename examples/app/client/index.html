@@ -15,27 +15,57 @@
             </div>
         {{/each}}
         {{> xcalendar}}
-        {{> dateAskModal }}
-        {{> dateUpdateAskModal}}
-        {{> dateRemoveAskModal}}
-        <button class="ui button show-modal">show modal</button>
         {{> modal}}
     </div>
 </template>
 
-<template name="modal">
-    <div id="modalId" class="xmodal {{modalShow}}">
-        <div class="center">
-            {{> UI.dynamic template=template}}
+<template name="modalInsertEvent">
+    <div style="border: 2px solid seagreen; width: 500px;">
+        <h3>You are going to give an appointment for {{this.patient.nhc}}</h3>
+        <div class="ui input">
+            text: <textarea type="text" rows="5" cols="50">{{this.text}}</textarea>
+        </div>
+        <div>
+            <div class="ui black cancel button">
+                cancel
+            </div>
+            <div class="ui positive right labeled icon button ok">
+                ok
+                <i class="checkmark icon"></i>
+            </div>
         </div>
     </div>
 </template>
 
-<template name="modal1">
-    <div>
+<template name="modalUpdateEvent">
+    <div style="border: 2px solid seagreen; width: 500px;">
+        <h3>You are going to edit the appointment for {{this.patient.nhc}} and date {{formatDateTime this.date}}</h3>
         <div class="ui input">
-            <input type="text">
-            <button class="ui button close">close</button>
+            text: <textarea type="text" rows="5" cols="50">{{this.text}}</textarea>
+        </div>
+        <div>
+            <div class="ui black cancel button">
+                cancel
+            </div>
+            <div class="ui positive right labeled icon button ok">
+                ok
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="modalRemoveEvent">
+    <div style="border: 2px solid seagreen; width: 500px;">
+        <h3>You are going to delete the appointment for {{this.patient.nhc}} and date {{formatDateTime this.date}}</h3>
+        <div>
+            <div class="ui black cancel button">
+                cancel
+            </div>
+            <div class="ui positive right labeled icon button ok">
+                ok
+                <i class="checkmark icon"></i>
+            </div>
         </div>
     </div>
 </template>
@@ -120,79 +150,5 @@
     <div class="empty-slot">click for appointment</div>
 </template>
 
-<template name="dateAskModal">
-    {{#with patient}}
-    <div id='dateAskModal' class="ui modal">
-        <div class="header">
-            Alert!
-        </div>
-        <div class="content">
-            <div class="description">
-                <div class="ui header">You are going to give an appointment to {{this.nhc}}.</div>
-                Text: <textarea rows="4" cols="50" id="inputDateAskModal"></textarea>
-                <h3>Is it okay?</h3>
-            </div>
-        </div>
-        <div class="actions">
-            <div class="ui black cancel button">
-                No
-            </div>
-            <div class="ui positive right labeled icon button">
-                Yes
-                <i class="checkmark icon"></i>
-            </div>
-        </div>
-    </div>
-    {{/with}}
-</template>
 
-<template name="dateUpdateAskModal">
-    {{#with event}}
-        <div id='dateUpdateAskModal' class="ui modal">
-            <div class="header">
-                Alert!
-            </div>
-            <div class="content">
-                <div class="description">
-                    <div class="ui header">You are going to modify the appointment for {{this.patient.nhc}} and date {{formatDateTime this.date}}.</div>
-                    Text: <textarea rows="4" cols="50" id="inputUpdateAskModal">{{this.text}}</textarea>
-                    <h3>Is it okay?</h3>
-                </div>
-            </div>
-            <div class="actions">
-                <div class="ui black cancel button">
-                    No
-                </div>
-                <div class="ui positive right labeled icon button">
-                    Yes
-                    <i class="checkmark icon"></i>
-                </div>
-            </div>
-        </div>
-    {{/with}}
-</template>
 
-<template name="dateRemoveAskModal">
-    {{#with event}}
-        <div id='dateRemoveAskModal' class="ui modal">
-            <div class="header">
-                Alert!
-            </div>
-            <div class="content">
-                <div class="description">
-                    <div class="ui header">You are going to delete the appointment for {{this.patient.nhc}} and date {{formatDateTime this.date}}.</div>
-                    <h3>Is it okay?</h3>
-                </div>
-            </div>
-            <div class="actions">
-                <div class="ui black cancel button">
-                    No
-                </div>
-                <div class="ui positive right labeled icon button">
-                    Yes
-                    <i class="checkmark icon"></i>
-                </div>
-            </div>
-        </div>
-    {{/with}}
-</template>
