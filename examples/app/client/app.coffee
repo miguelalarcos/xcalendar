@@ -37,7 +37,7 @@ Template.xCalendarSlot.events
       event = {date:date, patientId: patientId.get(), status: 'reserved'}
       _id = xCalendar.insert event
       event = xevent.findOne(_id)
-      onOk = (text) ->xCalendar.update(_id, {text: text, status: 'pending'})
+      onOk = (dct) ->xCalendar.update(_id, {text: dct.text, status: 'pending'})
       onCancel = -> xCalendar.remove _id
       $('#modalInsertEventId textarea').val('')
       modal.show('modalInsertEvent', event, onOk, onCancel)
@@ -47,28 +47,15 @@ Template.xCalendarEvent.events
     reprogrammingEvent.set t.data
   'click .delete-event': (e, t)->
     _id = t.data._id
-    modal.show('modalRemoveEvent', t.data, -> xCalendar.remove _id)
+    modal.show('modalRemoveEvent', t.data, -> xCalendar.remove(_id))
   'click .patient-event': (e, t)->
-    if $(e.target).hasClass('delete-event') or $(e.target).hasClass('reprogramming-event')
+    if $(e.target).hasClass('delete-event') or $(e.target).hasClass('reprogramming-event') or $(e.target).hasClass('xpopup')
       return
     _id = t.data._id
-    modal.show('modalUpdateEvent', t.data, (text) -> xCalendar.update _id, {text: text})
+    onOk = (dct) ->
+      xCalendar.update(_id, {text: dct.text})
+    modal.show('modalUpdateEvent', t.data, onOk)
 
-Template.modalInsertEvent.events
-  'click .ok': (e,t)->
-    val = $(t.find('textarea')).val()
-    modal.onOkCallback(val)
-  'click .cancel': (e,t)->
-    modal.onCancelCallback()
-
-Template.modalUpdateEvent.events
-  'click .ok': (e,t)->
-    val = $(t.find('textarea')).val()
-    modal.onOkCallback(val)
-
-Template.modalRemoveEvent.events
-  'click .ok': (e,t)->
-    modal.onOkCallback()
 
 class @HomeController extends RouteController
   waitOn: ->
