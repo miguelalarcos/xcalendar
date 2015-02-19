@@ -2,9 +2,6 @@
 basicEventSchema =
   date:
     type: Date
-  text:
-    type: String
-    optional: true
   calendarId:
     type: String
 

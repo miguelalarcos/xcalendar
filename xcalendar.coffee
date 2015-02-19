@@ -1,4 +1,5 @@
-xday = new ReactiveVar(moment.utc())
+#xday = new ReactiveVar(moment.utc())
+xday = new ReactiveVar(moment())
 xcalendarId = new ReactiveVar(null)
 isWeekView = new ReactiveVar(true)
 
@@ -30,7 +31,8 @@ Template.xCalendarButtonMinus.events
     xday.set xday.get().add(-7, 'days')
 Template.xCalendarButtonToday.events
   'click button': (e,t)->
-    xday.set moment.utc()
+    #xday.set moment.utc()
+    xday.set moment()
 Template.xCalendarButtonChangeView.events
   'click button': (e,t) ->
     isWeekView.set not isWeekView.get()
@@ -44,7 +46,8 @@ slots = (ini, end, interval)->
   ret = []
   ini = ini.split(':')
   end = end.split(':')
-  ini = moment.utc().hour(ini[0]).minute(ini[1]).startOf('minute')
+  #ini = moment.utc().hour(ini[0]).minute(ini[1]).startOf('minute')
+  ini = moment().hour(ini[0]).minute(ini[1]).startOf('minute')
   end = ini.clone().hour(end[0]).minute(end[1]).startOf('minute')
   while ini.isBefore(end)
     ret.push ini.format('HH:mm')
@@ -60,7 +63,8 @@ Template.xcalendar.helpers
 
 Template.xCalendarInnerDay.helpers
   existsAppointment: (slot)->
-    day = xday.get().clone().local().format('YYYY-MM-DD')
+    #day = xday.get().clone().local().format('YYYY-MM-DD')
+    day = xday.get().clone().format('YYYY-MM-DD')
     d = moment(day + ' ' + slot, 'YYYY-MM-DD HH:mm').toDate()
     xevent.findOne(date:d)
   slot: -> slots(slotIni.get(), slotEnd.get(), duration.get())
@@ -68,7 +72,8 @@ Template.xCalendarInnerDay.helpers
     calendar: xcalendar.findOne(xcalendarId.get()).name
     date: xday.get()
   xevent: (slot) ->
-    day = xday.get().clone().local().format('YYYY-MM-DD')
+    #day = xday.get().clone().local().format('YYYY-MM-DD')
+    day = xday.get().clone().format('YYYY-MM-DD')
     d = moment(day + ' ' + slot, 'YYYY-MM-DD HH:mm').toDate()
     {doc: xevent.findOne(date:d), slot: slot}
 
@@ -93,7 +98,8 @@ Template.xcalendarInner.helpers
     minute = parseInt(slot[1])
     ret = []
     for i in days.get()
-      m = xday.get().clone().local().day(i).hour(hour).minute(minute).startOf('minute')
+      #m = xday.get().clone().local().day(i).hour(hour).minute(minute).startOf('minute')
+      m = xday.get().clone().day(i).hour(hour).minute(minute).startOf('minute')
       ret.push m
     return ret
   xevent: (m) ->

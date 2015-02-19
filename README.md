@@ -100,6 +100,9 @@ xCalendar.attachEventSchema
     type: String
   status:
     type: String
+  text:
+    type: String
+    optional: true
 ```
 
 And this is to set the event helpers (you have to add the ```dburles:collection-helpers``` package):
@@ -132,6 +135,7 @@ xCalendar.publishWeekEvents = (children) ->
 ```
 
 css: you can style the tables of the calendar. Use ```#xCalendarDayViewTable``` and ```#xCalendarWeekViewTable```.
+
 TODO:
 * i18n
 * at the moment, xCalendar is singleton. Think if it would be useful to have different calendar views at the same time in an app.
