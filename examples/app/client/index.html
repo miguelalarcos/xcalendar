@@ -20,10 +20,12 @@
 </template>
 
 <template name="modalInsertEvent">
-    <div id="modalInsertEventId" style="border: 2px solid seagreen; width: 500px;">
+    <div style="border: 2px solid seagreen; width: 500px;">
         <h3>You are going to give an appointment for {{this.patient.nhc}}</h3>
-        <p><b>Text:</b></p>
-        <textarea type="text" rows="5" cols="50" name="text">{{this.text}}</textarea>
+        {{#autoForm schema='modalSchema' id="modalInsertForm" type="insert"}}
+            <b>Text:</b>
+            {{> afFieldInput name='text' rows="5" cols="50"}}
+        {{/autoForm}}
         <div>
             <div class="ui black cancel button">
                 cancel
@@ -39,8 +41,10 @@
 <template name="modalUpdateEvent">
     <div style="border: 2px solid seagreen; width: 500px;">
         <h3>You are going to edit the appointment for {{this.patient.nhc}} and date {{formatDateTime this.date}}</h3>
-        <p><b>Text:</b></p>
-        <textarea type="text" rows="5" cols="50" name="text">{{this.text}}</textarea>
+        {{#autoForm doc=this schema='modalSchema' id="modalUpdateForm" type="insert"}}
+            <b>Text:</b>
+            {{> afFieldInput name='text' rows="5" cols="50"}}
+        {{/autoForm}}
         <div>
             <div class="ui black cancel button">
                 cancel

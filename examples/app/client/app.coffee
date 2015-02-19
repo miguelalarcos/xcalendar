@@ -39,7 +39,7 @@ Template.xCalendarSlot.events
       event = xevent.findOne(_id)
       onOk = (dct) ->xCalendar.update(_id, {text: dct.text, status: 'pending'})
       onCancel = -> xCalendar.remove _id
-      $('#modalInsertEventId textarea').val('')
+      #$('#modalInsertEventId textarea').val('')
       modal.show('modalInsertEvent', event, onOk, onCancel)
 
 Template.xCalendarEvent.events
@@ -78,3 +78,6 @@ Template.home.events
     xCalendar.setCalendar _id
     console.log 'calendar id set'
 
+@modalSchema = new SimpleSchema
+  text:
+    type: String
